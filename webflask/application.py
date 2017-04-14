@@ -35,8 +35,8 @@ def login_page():
         password = request.form['userpass']
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("select ")
-        return redirect(url_for('choose_function', url=url))
+        cursor.execute("SELECT UserType FROM USER WHERE ")
+        return redirect(url_for('choose_function', type=type))
     else:
         entries = []
         return render_template('login.html', entries=entries)
