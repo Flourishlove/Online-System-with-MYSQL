@@ -51,60 +51,61 @@
 
         <div class="jumbotron">
           <form class="form-signin">
-            <h2 class="form-signin-heading">Add new data point</h2>
+            <h2 class="form-signin-heading">Add a new location</h2>
+
             <div class = "row">
               <div class="col-sm-3">
-               <p style="font-size: 16px; text-align: right;  margin-top: 15px;">POI location name</p></div>
-               <div class = "col-sm-6"><select class="selectDP">
-                <option value="1">1</option>
-                <option value="2">2</option>
-              </select></div>
-              <div class="col-sm-3">
-                <a href="#">add new location</a>
-              </div>
-            </div>
-            <div class = "row">
-              <div class="col-sm-3">
-                <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Time and date</p></div>
+                <p style="font-size: 16px; text-align: right;  margin-top: 15px;">POI location name</p></div>
                 <div class = "col-sm-9"><label for="TimeandDate" class="sr-only">Time and date</label>
-                  <input id="TimeandDate" class="form-control" placeholder="Time and date" required="" type="date">
+                  <input id="TimeandDate" class="form-control" placeholder="POI location name" required="" type="date">
                 </div>
               </div>
+
+              <div class = "row">
+                <div class="col-sm-3">
+                 <p style="font-size: 16px; text-align: right;  margin-top: 15px;">City</p></div>
+                 <div class = "col-sm-6"><select class="selectDP">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select></div>
+              </div>
+              
               <div class="row">
                 <div class="col-sm-3">
-                 <p style="font-size: 16px;  text-align: right; margin-top: 15px;">Data type</p>
-                 </div>
-                 <div class = "col-sm-6"><select class="selectDP">
+                 <p style="font-size: 16px;  text-align: right; margin-top: 15px;">State</p>
+               </div>
+               <div class = "col-sm-6"><select class="selectDP">
                  <option value="a">a</option>
                  <option value="b">b</option>
                  <option value="c">c</option></select>
                </div>
              </div>
+
              <div class="row">
-             <div class="col-sm-3">
-               <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Data Value</p>
+               <div class="col-sm-3">
+                 <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Zip Code</p>
                </div>
                <div class="col-sm-9">
-               <label for="inputPassword" class="sr-only">Data Value</label>
-               <input id="inputPassword" class="form-control" placeholder="Data Value" required="">
+                 <label for="inputPassword" class="sr-only">Zip Code</label>
+                 <input id="inputPassword" class="form-control" placeholder="Zip Code" required="">
                </div>
-               </div>
-
              </div>
-             <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Submit</button>
-             <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Back</button>
 
-           </form>
-         </div>
+           </div>
+           <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Submit</button>
+           <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Back</button>
 
-         <footer class="footer">
-          <p>&copy; 2016 Company, Inc.</p>
-        </footer>
+         </form>
+       </div>
 
-      </div> <!-- /container -->
+       <footer class="footer">
+        <p>&copy; 2016 Company, Inc.</p>
+      </footer>
+
+    </div> <!-- /container -->
 
 
-      <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-      <script src="{{ url_for('static', filename='js/e10-viewport-bug-workaround.js') }}"></script>
-    </body>
-    </html>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{{ url_for('static', filename='js/e10-viewport-bug-workaround.js') }}"></script>
+  </body>
+  </html>
