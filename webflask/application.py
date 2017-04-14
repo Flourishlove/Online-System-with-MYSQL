@@ -2,6 +2,8 @@
 import sys, os
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
+from flask.ext.mysql import MySQL
+
 
 from settings import APP_STATIC
 
@@ -9,7 +11,25 @@ from settings import APP_STATIC
 application = Flask(__name__)
 application.debug = True
 
+mysql = MySQL()
 
+application = Flask(__name__)
+
+
+application.config['MYSQL_DATABASE_USER'] = 'lyr1994'
+application.config['MYSQL_DATABASE_PASSWORD'] = 'database4400'
+application.config['MYSQL_DATABASE_DB'] = 'city82'
+application.config['MYSQL_DATABASE_HOST'] = 'database4400.clmserjcl9pt.us-east-1.rds.amazonaws.com'
+
+mysql.init_app(application)
+
+
+sql = "show tables"
+conn = mysql.connect()
+cursor = conn.cursor()
+cursor.execute(sql)
+for row in cursor:
+    print (row)
 
 @application.route('/login', methods=['GET', 'POST'])
 def login_page():
