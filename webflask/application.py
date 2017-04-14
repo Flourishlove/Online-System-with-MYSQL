@@ -2,7 +2,7 @@
 import sys, os
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
-from flask.ext.mysql import MySQL
+from flaskext.mysql import MySQL
 
 
 from settings import APP_STATIC
@@ -12,14 +12,10 @@ application = Flask(__name__)
 application.debug = True
 
 mysql = MySQL()
-
-application = Flask(__name__)
-
-
-application.config['MYSQL_DATABASE_USER'] = 'lyr1994'
-application.config['MYSQL_DATABASE_PASSWORD'] = 'database4400'
+application.config['MYSQL_DATABASE_USER'] = 'root'
+application.config['MYSQL_DATABASE_PASSWORD'] = 'FriApr14'
 application.config['MYSQL_DATABASE_DB'] = 'city82'
-application.config['MYSQL_DATABASE_HOST'] = 'database4400.clmserjcl9pt.us-east-1.rds.amazonaws.com'
+application.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
 mysql.init_app(application)
 
@@ -31,11 +27,16 @@ cursor.execute(sql)
 for row in cursor:
     print (row)
 
+
 @application.route('/login', methods=['GET', 'POST'])
 def login_page():
     if request.method == 'POST':
-        url = request.form['target_url']
-        return redirect(url_for('mainpage', url=url))
+        email = request.form['useremail']
+        password = request.form['userpass']
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute("select ")
+        return redirect(url_for('choose_function', url=url))
     else:
         entries = []
         return render_template('login.html', entries=entries)
@@ -43,7 +44,8 @@ def login_page():
 
 @application.route('/choosefunction', methods=['GET'])
 def choose_function():
-    return render_template('choosefunction.html')
+    entries = []
+    return render_template('choosefunction.html', entries=entries)
 
 @application.route('/signup', methods=['GET'])
 def signup():
