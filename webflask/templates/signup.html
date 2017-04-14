@@ -24,6 +24,11 @@
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="{{ url_for('static', filename='js/ie-emulation-modes-warning.js') }}"></script>
 
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -65,16 +70,15 @@
         }
     }
 </script>
-<div class="btn-group">
-    <button type="button" class="form-control btn btn-default dropdown-toggle" data-toggle="dropdown">
-        Select Business type <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        <li><a href="#">small</a></li>
-        <li><a href="#">medium</a></li>
-        <li><a href="#">large</a></li>
+  <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle city_official" type="button" data-toggle="dropdown">City Scientist
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu" style=" text-align:center">
+      <li><a href="#">HTML</a></li>
+      <li><a href="#">CSS</a></li>
+      <li><a href="#">JavaScript</a></li>
     </ul>
-</div>
+  </div>
         <div class="checkbox">
 
         </div>
