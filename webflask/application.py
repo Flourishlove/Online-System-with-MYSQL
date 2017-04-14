@@ -3,6 +3,7 @@ import sys, os
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 from flask.ext.mysql import MySQL
+from hashlib import md5
 
 
 from settings import APP_STATIC
@@ -23,19 +24,34 @@ application.config['MYSQL_DATABASE_HOST'] = 'database4400.clmserjcl9pt.us-east-1
 
 mysql.init_app(application)
 
-
-sql = "show tables"
 conn = mysql.connect()
-cursor = conn.cursor()
-cursor.execute(sql)
-for row in cursor:
-    print (row)
+cur = conn.cursor()
+
+class ServerError(Exception):pass
 
 @application.route('/login', methods=['GET', 'POST'])
 def login_page():
     if request.method == 'POST':
+        username_form = request.form['username']
+        password_form = request.form['password']
+
+        cur.execute("SELECT COUNT(1) FROM users WHERE name = {};"
+                    .format(username_form))
+        if not cur.fetchone()[0]:
+            raise ServerError('Invalid username')
+
+        password_form = request.form['password']
+        cur.execute("SELECT pass FROM users WHERE name = {};"
+                    .format(username_form))
+
+        for row in cur.fetchall():
+            if md5(password_form).hexdigest() == row[0]:
+                session['username'] = request.form['username']
+                return redirect(url_for('choosefunction'))
+            else :
+                flash("Wrong Password!")
         url = request.form['target_url']
-        return redirect(url_for('mainpage', url=url))
+        return redirect(url_for('choosefunction', url=url))
     else:
         entries = []
         return render_template('login.html', entries=entries)
