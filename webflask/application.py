@@ -18,8 +18,11 @@ def login_page():
         return redirect(url_for('mainpage', url=url))
     else:
         entries = []
-        return render_template('index.html', entries=entries)
+        return render_template('login.html', entries=entries)
 
+@application.route('/choosefunction', methods=['GET'])
+def choose_function():
+    return render_template('choosefunction.html')
 
 @application.route('/', methods=['GET'])
 def mainpage():
