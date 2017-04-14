@@ -18,34 +18,48 @@ application.config['MYSQL_DATABASE_DB'] = 'city82'
 application.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
 mysql.init_app(application)
-
-
-sql = "show tables"
 conn = mysql.connect()
-cursor = conn.cursor()
-cursor.execute(sql)
-for row in cursor:
-    print (row)
+cur = conn.cursor()
 
 
 @application.route('/login', methods=['GET', 'POST'])
 def login_page():
     if request.method == 'POST':
+        user_type = None
+        error = None
         email = request.form['useremail']
         password = request.form['userpass']
-        conn = mysql.connect()
-        cursor = conn.cursor()
-        cursor.execute("SELECT UserType FROM USER WHERE ")
-        return redirect(url_for('choose_function', type=type))
+        cur.execute("SELECT COUNT(1) FROM USER WHERE Email = %s;", [email])
+        if cur.fetchone()[0]:
+            cur.execute("SELECT Username, Password, UserType FROM USER WHERE Email = %s;", [email])
+            for row in cur.fetchall():
+                print row
+                if password == row[1]:
+                    session['logged_in'] = True
+                    session['username'] = row[0]
+                    user_type = row[2]
+                else:
+                    error = "Invalid Credential"
+        else:
+            error = "User not exist"
+        return redirect(url_for('choose_function', type=user_type, error=error))
     else:
         entries = []
         return render_template('login.html', entries=entries)
 
-
 @application.route('/choosefunction', methods=['GET'])
 def choose_function():
-    entries = []
-    return render_template('choosefunction.html', entries=entries)
+    curType = request.args.get('type')
+
+    if curType == 'admin':
+        entries = ['Pending Data Point', 'Pending City Official Accounts']
+        link = ['/pendingdatapoint.html', 'pendingaccount.html']
+    else:
+        if curType == 'city_official':
+            entries = ['Filter/Search POI', 'POI Report']
+            link = ['/viewpoi.html', '/poidetail']
+    return render_template('choosefunction.html', entries=entries, link=link)
+
 
 @application.route('/signup', methods=['GET'])
 def signup():
@@ -83,7 +97,7 @@ def poi_report():
 def mainpage():
     return render_template('index.html')
 
-
+application.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 # run the app.
 if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be
