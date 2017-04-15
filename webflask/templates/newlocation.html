@@ -50,7 +50,7 @@
         </div>
 
         <div class="jumbotron">
-          <form class="form-signin">
+          <form class="form-signin" action="{{ url_for('new_location') }}" method="post">
             <h2 class="form-signin-heading">Add a new location</h2>
 
             <div class = "row">
@@ -66,8 +66,9 @@
                 <div class="col-sm-3">
                  <p style="font-size: 16px; text-align: right;  margin-top: 15px;">City</p></div>
                  <div class = "col-sm-6"><select class="selectDP" name="pcity">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
+                    {% for city in citylist %}
+                        <option value="{{ city }}">{{ city }}</option>
+                    {% endfor %}
                 </select></div>
               </div>
               
@@ -76,9 +77,10 @@
                  <p style="font-size: 16px;  text-align: right; margin-top: 15px;">State</p>
                </div>
                <div class = "col-sm-6"><select class="selectDP" name="pstate">
-                 <option value="a">a</option>
-                 <option value="b">b</option>
-                 <option value="c">c</option></select>
+                    {% for state in statelist %}
+                        <option value="{{ state }}">{{ state }}</option>
+                    {% endfor %}
+                 </select>
                </div>
              </div>
 
@@ -88,11 +90,20 @@
                </div>
                <div class="col-sm-9">
                  <label for="inputPassword" class="sr-only">Zip Code</label>
-                 <input id="inputPassword" class="form-control" placeholder="Zip Code" required="">
+                 <input name="zipcode" id="inputPassword" class="form-control" placeholder="Zip Code" required="">
                </div>
              </div>
-
-                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" type="submit">Back</button>
+                {% if error %}
+                    <div class="alert alert-danger">
+                        <strong>Wrong: </strong>{{ error }}
+                    </div>
+                  {% endif %}
+                {% if message %}
+                    <div class="alert alert-success">
+                        <strong>Success: </strong>{{ message }}
+                    </div>
+                {% endif %}
+                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" onclick="window.location.href='/newdatapoint'">Back</button>
                 <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 100px; margin-left: 20px;" type="submit">Submit</button>
             </div>
          </form>

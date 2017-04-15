@@ -123,10 +123,40 @@ def new_datapoint():
 
 @application.route('/newlocation', methods=['GET', 'POST'])
 def new_location():
+    error = None
+    message = None
+    sqlHead = 'select city from citystate'
+    cur.execute(sqlHead)
+    rows = [[str(item) for item in results] for results in cur.fetchall()]
+    list1 = []
+    for name in rows:
+        list1.append(name[0])
+    sqlHead = 'select state from citystate'
+    cur.execute(sqlHead)
+    rows = [[str(item) for item in results] for results in cur.fetchall()]
+    list2 = []
+    for name in rows:
+        list2.append(name[0])
     if request.method == 'POST':
-        return redirect(url_for('new_location'))
+        locationname = request.form['locationname']
+        pcity = request.form['pcity']
+        pstate = request.form['pstate']
+        zipcode = request.form['zipcode']
+        sql = 'INSERT INTO POI (Location_Name, Zip_Code, PCity, PState) VALUES (%s, %s, %s, %s)'
+        try:
+            cur.execute(sql, (locationname, zipcode, pcity, pstate))
+            conn.commit()
+            error = None
+            message = 'Add New Location Successfully!'
+            return render_template('newlocation.html', message=message, error=error, citylist=list1, statelist=list2)
+        except Exception, e:
+            print str(e)
+            error = 'Input Error!!'
+            message = None
+            return render_template('newlocation.html', error=error, citylist=list1, statelist=list2)
     else:
-        return render_template('newlocation.html')
+        error = None
+        return render_template('newlocation.html', citylist=list1, statelist=list2)
 
 @application.route('/pendingdatapoint', methods=['GET'])
 def pending_datapoint():
