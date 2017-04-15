@@ -88,7 +88,7 @@ def signup():
         except Exception, e:
             print str(e)
             error = 'Email Exists!!'
-            return render_template('signup.html', error = error)
+            return render_template('signup.html', error=error)
 
 
         return redirect(url_for('login_page'))
@@ -109,9 +109,9 @@ def new_datapoint():
         datatype = request.form['datatype']
         datavalue = request.form['value']
         timedate = request.form['timeanddate']
-        sql = "INSERT INTO DATAPOINT (PLocation_Name, DateRecorded, Data_Value, DType) VALUES (%s, %s,%s,%s)"
+        sql = "INSERT INTO DATAPOINT (PLocation_Name, DateRecorded, Data_Value, DType, Accepted) VALUES (%s, %s,%s,%s,%s)"
         try:
-            cur.execute(sql, (poiLocationName, timedate, datavalue, datatype))
+            cur.execute(sql, (poiLocationName, timedate, datavalue, datatype, False))
             conn.commit()
             return render_template('newdatapoint.html', locationlist=list)
         except Exception, e:
