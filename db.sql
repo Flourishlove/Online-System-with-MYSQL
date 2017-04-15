@@ -91,4 +91,4 @@ CREATE TABLE DATAPOINT
 INSERT INTO `DATAPOINT` (`PLocation_Name`, `DateRecorded`, `Data_Value`, `Accepted`, `DType`)
 VALUES
     ('Georgia Tech', DATE '2017-04-13', 8712, FALSE, 'mold'),
-    ('MIT', FALSE, DATE '2016-03-21', 32, TRUE, 'airquality');
+    ('MIT', DATE '2016-03-21', 32, TRUE, 'airquality');
