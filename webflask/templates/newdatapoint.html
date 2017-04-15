@@ -50,14 +50,15 @@
         </div>
 
         <div class="jumbotron">
-          <form class="form-signin">
+          <form class="form-signin" action="{{ url_for('new_datapoint') }}" method="post">
             <h2 class="form-signin-heading">Add new data point</h2>
             <div class = "row">
               <div class="col-sm-3">
                <p style="font-size: 16px; text-align: right;  margin-top: 15px;">POI location name</p></div>
-               <div class = "col-sm-6"><select class="selectDP">
-                <option value="1">1</option>
-                <option value="2">2</option>
+               <div class = "col-sm-6"><select class="selectDP" name="locationname">
+                   {% for location in locationlist %}
+                        <option value="{{ location }}">{{ location }}</option>
+                    {% endfor %}
               </select></div>
               <div class="col-sm-3" style="font-size: 16px; text-align: left;  margin-top: 15px;">
                 <a href="#">add new location</a>
@@ -67,17 +68,17 @@
               <div class="col-sm-3">
                 <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Time and date</p></div>
                 <div class = "col-sm-9"><label for="TimeandDate" class="sr-only">Time and date</label>
-                  <input id="TimeandDate" class="form-control" placeholder="Time and date" required="" type="date">
+                  <input id="TimeandDate" name="timeanddate" class="form-control" placeholder="Time and date" required="" type="date">
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-3">
                  <p style="font-size: 16px;  text-align: right; margin-top: 15px;">Data type</p>
                  </div>
-                 <div class = "col-sm-6"><select class="selectDP">
-                 <option value="a">a</option>
-                 <option value="b">b</option>
-                 <option value="c">c</option></select>
+                 <div class = "col-sm-6"><select class="selectDP" name="datatype">
+                 <option value="mold">Mold reading</option>
+                 <option value="airquoality">Air Quality reading</option>
+                 </select>
                </div>
              </div>
              <div class="row">
@@ -86,10 +87,15 @@
                </div>
                <div class="col-sm-9">
                <label for="inputPassword" class="sr-only">Data Value</label>
-               <input id="inputPassword" class="form-control" placeholder="Data Value" required="">
+               <input id="inputPassword" name="value" class="form-control" placeholder="Data Value" required="">
                </div>
             </div>
-                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" type="submit">Back</button>
+                  {% if error %}
+                    <div class="alert alert-danger">
+                        <strong>Wrong: </strong>{{ error }}
+                    </div>
+                  {% endif %}
+                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" onclick="window.location.href='/login'">Back</button>
                 <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 100px; margin-left: 20px;" type="submit">Submit</button>
              </div>
 
