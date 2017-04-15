@@ -42,10 +42,13 @@ def login_page():
                     error = "Invalid Credential"
         else:
             error = "User not exist"
-        return redirect(url_for('choose_function', type=user_type, error=error))
+        if error:
+            return redirect(url_for('login_page', error=error))
+        else:
+            return redirect(url_for('choose_function', type=user_type))
     else:
-        entries = []
-        return render_template('login.html', entries=entries)
+        error = request.args.get('error')
+        return render_template('login.html', error=error)
 
 @application.route('/choosefunction', methods=['GET'])
 def choose_function():
