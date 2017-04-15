@@ -88,16 +88,16 @@
                   </div>
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" type="submit">Reset filter</button>
+                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" type="reset">Reset filter</button>
                 <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 100px; margin-left: 20px;" type="submit">Apply filter</button>
 
                 <table class="table table-striped" style="margin-top: 40px;" align="center">
                   <thead>
                     <tr>
-                    <th>Selected</th>
-                    <th>Data Type</th>
+                      <th>Selected</th>
+                      <th>Data Type</th>
                       <th>Data Value</th>
-                                            <th>Date and Time Flaggeed</th>
+                      <th>Date and Time Flaggeed</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -107,11 +107,11 @@
                       <td>12</td>
                       <td>01/31/2016</td>
                     </tr>
-                   
+                    
                   </tbody>
                 </table>
-                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" type="submit">Back</button>
-                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 100px; margin-left: 20px;" type="submit">Flag</button>
+                <a class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 50px;" type="submit" href="{{ url_for('view_poi')}}">Back</a>
+                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 50px; margin-left: 20px;" type="submit">Flag</button>
               </form>
             </div>
           </div> <!-- /container -->
