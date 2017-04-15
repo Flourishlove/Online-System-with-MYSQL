@@ -66,7 +66,7 @@
                 <div class = "col-sm-4">
                   <label for="StartValue" class="sr-only">Start Value</label>
                   <input id="StartValue" class="form-control">
-                  </div>
+                </div>
                 <div class="col-sm-1">                  <p style="font-size: 16px; text-align: center;  margin-top: 15px;">to</p></div>
                 <div class = "col-sm-4">
                   <label for="EndDate" class="sr-only">End Value</label>
@@ -74,62 +74,51 @@
                 </div>
               </div>
 
-                          <div class = "row">
-              <div class="col-sm-3">
-                <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Time and Date</p></div>
-                <div class = "col-sm-4">
-                  <label for="StartDate" class="sr-only">Start Date</label>
-                  <input id="StartDate" class="form-control" placeholder="Start Date" type="date">
+              <div class = "row">
+                <div class="col-sm-3">
+                  <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Time and Date</p></div>
+                  <div class = "col-sm-4">
+                    <label for="StartDate" class="sr-only">Start Date</label>
+                    <input id="StartDate" class="form-control" placeholder="Start Date" type="date">
                   </div>
-                <div class="col-sm-1">                  <p style="font-size: 16px; text-align: center;  margin-top: 15px;">to</p></div>
-                <div class = "col-sm-4">
-                  <label for="EndDate" class="sr-only">End Date</label>
-                  <input id="EndDate" class="form-control" placeholder="Start Date" type="date">
+                  <div class="col-sm-1">                  <p style="font-size: 16px; text-align: center;  margin-top: 15px;">to</p></div>
+                  <div class = "col-sm-4">
+                    <label for="EndDate" class="sr-only">End Date</label>
+                    <input id="EndDate" class="form-control" placeholder="Start Date" type="date">
+                  </div>
                 </div>
-              </div>
 
-              <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" type="submit">Reset filter</button>
-              <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 100px; margin-left: 20px;" type="submit">Apply filter</button>
+                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" type="submit">Reset filter</button>
+                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 100px; margin-left: 20px;" type="submit">Apply filter</button>
 
-              <table class="table" style="margin-top: 40px;" align="left">
-                <thead>
-                  <tr>
-                    <th>Localtion name</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Zip Code</th>
-                    <th>Flagged</th>
-                    <th>Date Flagged</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Georgia Tech</td>
-                    <td>Atlanta</td>
-                    <td>GA</td>
-                    <td>123456</td>
-                    <td>yes</td>
-                    <td>01/31/2016</td>
-                  </tr>
-                  <tr>
-                    <td>Georgia Tech</td>
-                    <td>Atlanta</td>
-                    <td>GA</td>
-                    <td>123456</td>
-                    <td>yes</td>
-                    <td>01/31/2016</td>
-                  </tr>
-                </tbody>
-              </table>
-            </form>
-          </div>
+                <table class="table" style="margin-top: 40px;" align="center">
+                  <thead>
+                    <tr>
+                    <th>Selected</th>
+                    <th>Data Type</th>
+                      <th>Data Value</th>
+                                            <th>Date and Time Flaggeed</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><label><input type="checkbox"" value="1"></label></td>
+                      <td>Mold</td>
+                      <td>12</td>
+                      <td>01/31/2016</td>
+                    </tr>
+                   
+                  </tbody>
+                </table>
+                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" type="submit">Back</button>
+                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 100px; margin-left: 20px;" type="submit">Flag</button>
+              </form>
+            </div>
 
-                        <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 20px;" type="submit">Back</button>
-
-        </div> <!-- /container -->
+          </div> <!-- /container -->
 
 
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="{{ url_for('static', filename='js/e10-viewport-bug-workaround.js') }}"></script>
-      </body>
-      </html>
+          <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+          <script src="{{ url_for('static', filename='js/e10-viewport-bug-workaround.js') }}"></script>
+        </body>
+        </html>
