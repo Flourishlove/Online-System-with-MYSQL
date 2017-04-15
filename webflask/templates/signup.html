@@ -50,14 +50,14 @@
       </div>
 
       <div class="jumbotron">
-      <form class="form-signin" data-toggle="validator">
+      <form class="form-signin" action="{{ url_for('signup') }}"  data-toggle="validator" method="post">
         <h2 class="form-signin-heading">Please sign up</h2>
         <label for="inputUsername" class="sr-only">Username</label>
-                <input id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="">
+                <input id="inputUsername" name="username" class="form-control" placeholder="Username" required="" autofocus="">
         <label for="inputEmail" class="sr-only">Email address</label>
-        <input id="inputEmail" class="form-control" placeholder="Email address" required="" type="email">
+        <input id="inputEmail" class="form-control" name="email" placeholder="Email address" required="" type="email">
         <label for="inputPassword" class="sr-only">Password</label>
-        <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password">
+        <input id="inputPassword" class="form-control" name="userpass" placeholder="Password" required="" type="password">
         <label for="confirmPassword" class="sr-only">Confirm Password</label>
         <input id="confirmPassword" class="form-control" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm Password" required="" type="password" oninput="check(this)">
         <script language='javascript' type='text/javascript'>
@@ -71,13 +71,12 @@
     }
 </script>
   <div class="dropdown">
-    <button class="btn btn-default dropdown-toggle city_official" type="button" data-toggle="dropdown">City Scientist
-    <span class="caret"></span></button>
-    <ul class="dropdown-menu" style=" text-align:center">
-      <li><a href="#">HTML</a></li>
-      <li><a href="#">CSS</a></li>
-      <li><a href="#">JavaScript</a></li>
-    </ul>
+    <select name="usertype" class="selectpicker">
+      <option value="city_scientist">City Scientist</option>
+      <option value="city_official">City Official</option>
+
+    </select>
+
   </div>
         <div class="checkbox">
 
