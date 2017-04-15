@@ -69,18 +69,30 @@ def choose_function():
             entries = ['Filter/Search POI', 'POI Report']
         return render_template('choosefunction.html', entries=entries)
 
-
-@application.route('/signup', methods=['GET'])
+@application.route('/signup', methods=['GET', 'POST'])
 def signup():
-    return render_template('signup.html')
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['userpass']
+        usertype = request.form['usertype']
+        sql = "INSERT INTO USER (email,username,password,usertype) VALUES (%s, %s,%s,%s)"
+        cur.execute(sql, (email, username, password,usertype))
+        conn.commit()
+        return redirect(url_for('login_page'))
+    else:
+        return render_template('signup.html')
 
 @application.route('/newdatapoint', methods=['GET'])
 def new_datapoint():
     return render_template('newdatapoint.html')
 
-@application.route('/newlocation', methods=['GET'])
+@application.route('/newlocation', methods=['GET', 'POST'])
 def new_location():
-    return render_template('newlocation.html')
+    if request.method == 'POST':
+        return redirect(url_for('new_location'))
+    else:
+        return render_template('newlocation.html')
 
 @application.route('/pendingdatapoint', methods=['GET'])
 def pending_datapoint():
