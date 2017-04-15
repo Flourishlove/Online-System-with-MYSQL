@@ -50,18 +50,24 @@ def login_page():
         error = request.args.get('error')
         return render_template('login.html', error=error)
 
-@application.route('/choosefunction', methods=['GET'])
+@application.route('/choosefunction', methods=['GET', 'POST'])
 def choose_function():
     curType = request.args.get('type')
-
-    if curType == 'admin':
-        entries = ['Pending Data Point', 'Pending City Official Accounts']
-        link = ['/pendingdatapoint.html', 'pendingaccount.html']
+    if request.method == 'POST':
+        if request.form['action'] == 'Pending Data Point':
+            return redirect(url_for('pending_datapoint'))
+        elif request.form['action'] == 'Pending City Official Accounts':
+            return redirect(url_for('pending_account'))
+        elif request.form['action'] == 'Filter/Search POI':
+            return redirect(url_for('view_poi'))
+        else:
+            return redirect(url_for('poi_detail'))
     else:
-        if curType == 'city_official':
+        if curType == 'admin':
+            entries = ['Pending Data Point', 'Pending City Official Accounts']
+        else:
             entries = ['Filter/Search POI', 'POI Report']
-            link = ['/viewpoi.html', '/poidetail']
-    return render_template('choosefunction.html', entries=entries, link=link)
+        return render_template('choosefunction.html', entries=entries)
 
 
 @application.route('/signup', methods=['GET'])
