@@ -9,6 +9,13 @@ CREATE TABLE CITYSTATE
     PRIMARY KEY(City, State)
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
+INSERT INTO `CITYSTATE` (`City`, `State`)
+VALUES
+    ('Atlanta','Georgia'),
+    ('Los Angeles','California'),
+    ('Phoenix','Arizona'),
+    ('Boston','Massachusetts');
+
 # table USER
 # ------------------------------------------------------------
 DROP TABLE IF EXISTS `USER`;
@@ -27,6 +34,10 @@ CREATE TABLE USER
     PRIMARY KEY(Email),
     FOREIGN KEY(UCity, UState) REFERENCES CITYSTATE(City, State)
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+INSERT INTO `USER` (`Email`, `Username`, `Password`, `UserType`, `Title`, `Approved`, `UCity`, `UState`)
+VALUES
+    ('lxy.meteor@gmail.com', 'Admin', 'FriApr14', 'admin', NULL, NULL, 'Atlanta', 'Georgia');
 
 # table POI
 # ------------------------------------------------------------
