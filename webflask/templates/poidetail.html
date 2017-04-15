@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../favicon.ico">
+
+  <title>Online System</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/ie10-viewport-bug-workaround.css') }}">
+
+  <!-- Custom styles for this template -->
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/newdatapoint.css') }}">
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <script src="{{ url_for('static', filename='js/ie-emulation-modes-warning.js') }}"></script>
+
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+    </head>
+
+    <body>
+
+      <div class="container">
+        <div class="header clearfix">
+          <nav>
+            <ul class="nav nav-pills pull-right">
+              <li role="presentation" class="active"><a href="#">Sign In</a></li>
+              <li role="presentation"><a href="#">Sign Up</a></li>
+            </ul>
+          </nav>
+          <h3 class="text-muted">Online System</h3>
+        </div>
+
+        <div class="jumbotron">
+          <form class="form-signin">
+            <h2 class="form-signin-heading">POI detail</h2>
+            <div class = "row">
+              <div class="col-sm-3">
+               <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Type</p></div>
+               <div class = "col-sm-6"><select class="selectDP">
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select></div>
+            </div>
+            <div class = "row">
+              <div class="col-sm-3">
+                <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Data Value</p></div>
+                <div class = "col-sm-4">
+                  <label for="StartValue" class="sr-only">Start Value</label>
+                  <input id="StartValue" class="form-control">
+                  </div>
+                <div class="col-sm-1">                  <p style="font-size: 16px; text-align: center;  margin-top: 15px;">to</p></div>
+                <div class = "col-sm-4">
+                  <label for="EndDate" class="sr-only">End Value</label>
+                  <input id="EndDate" class="form-control">
+                </div>
+              </div>
+
+                          <div class = "row">
+              <div class="col-sm-3">
+                <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Time and Date</p></div>
+                <div class = "col-sm-4">
+                  <label for="StartDate" class="sr-only">Start Date</label>
+                  <input id="StartDate" class="form-control" placeholder="Start Date" type="date">
+                  </div>
+                <div class="col-sm-1">                  <p style="font-size: 16px; text-align: center;  margin-top: 15px;">to</p></div>
+                <div class = "col-sm-4">
+                  <label for="EndDate" class="sr-only">End Date</label>
+                  <input id="EndDate" class="form-control" placeholder="Start Date" type="date">
+                </div>
+              </div>
+
+              <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" type="submit">Reset filter</button>
+              <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 100px; margin-left: 20px;" type="submit">Apply filter</button>
+
+              <table class="table" style="margin-top: 40px;" align="left">
+                <thead>
+                  <tr>
+                    <th>Localtion name</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip Code</th>
+                    <th>Flagged</th>
+                    <th>Date Flagged</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Georgia Tech</td>
+                    <td>Atlanta</td>
+                    <td>GA</td>
+                    <td>123456</td>
+                    <td>yes</td>
+                    <td>01/31/2016</td>
+                  </tr>
+                  <tr>
+                    <td>Georgia Tech</td>
+                    <td>Atlanta</td>
+                    <td>GA</td>
+                    <td>123456</td>
+                    <td>yes</td>
+                    <td>01/31/2016</td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+          </div>
+
+                        <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 20px;" type="submit">Back</button>
+
+        </div> <!-- /container -->
+
+
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="{{ url_for('static', filename='js/e10-viewport-bug-workaround.js') }}"></script>
+      </body>
+      </html>
