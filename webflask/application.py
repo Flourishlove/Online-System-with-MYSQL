@@ -33,7 +33,6 @@ def login_page():
         if cur.fetchone()[0]:
             cur.execute("SELECT Username, Password, UserType FROM USER WHERE Email = %s;", [email])
             for row in cur.fetchall():
-                print row
                 if password == row[1]:
                     session['logged_in'] = True
                     session['username'] = row[0]
@@ -96,7 +95,9 @@ def new_location():
 
 @application.route('/pendingdatapoint', methods=['GET'])
 def pending_datapoint():
-    return render_template('pendingdatapoint.html')
+    cur.execute("SELECT PLocation_Name, DType, Data_Value, DateRecorded FROM DATAPOINT WHERE NOT Accepted;")
+    entries = cur.fetchall()
+    return render_template('pendingdatapoint.html', entries=entries)
 
 @application.route('/pendingaccount', methods=['GET'])
 def pending_account():

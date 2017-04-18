@@ -63,6 +63,16 @@
                 </tr>
               </thead>
               <tbody>
+                {% for row in entries %}
+                  <tr>
+                  <td>
+                    <label><input type="checkbox" value="1"></label></td>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                  </tr>
+                {% endfor %}
                 <tr>
                   <td>
                     <label><input type="checkbox" value="1"></label></td>
@@ -81,12 +91,11 @@
                     </tr>
                   </tbody>
                 </table>
-                <button class="btn btn-lg btn-primary btn-signin" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;">Back</button>
+                <a class="btn btn-lg btn-primary btn-signin" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;" href="{{ url_for('choose_function') }}">Back</a>
 
-                <button class="btn btn-lg btn-primary btn-signin" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;">Reject</button>
+                <input class="btn btn-lg btn-primary btn-signin" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;" name="action" value="Reject" />
 
-                <button class="btn btn-lg btn-primary btn-signin" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;">Accept</button>
-
+                <input class="btn btn-lg btn-primary btn-signin" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;" name="action" value="Accept" />
 
               </form>
             </div>
