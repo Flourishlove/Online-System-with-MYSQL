@@ -8,12 +8,16 @@ from flaskext.mysql import MySQL
 from settings import APP_STATIC
 
 # EB looks for an 'application' callable by default.
+
+reload(sys)
+
+sys.setdefaultencoding('utf-8')
 application = Flask(__name__)
 application.debug = True
 
 mysql = MySQL()
 application.config['MYSQL_DATABASE_USER'] = 'root'
-application.config['MYSQL_DATABASE_PASSWORD'] = 'FriApr14'
+application.config['MYSQL_DATABASE_PASSWORD'] = '9404122004'
 application.config['MYSQL_DATABASE_DB'] = 'city82'
 application.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
@@ -70,28 +74,88 @@ def choose_function():
 
 @application.route('/signup', methods=['GET', 'POST'])
 def signup():
+    error = None
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
         password = request.form['userpass']
         usertype = request.form['usertype']
         sql = "INSERT INTO USER (email,username,password,usertype) VALUES (%s, %s,%s,%s)"
-        cur.execute(sql, (email, username, password,usertype))
-        conn.commit()
+        try:
+            cur.execute(sql, (email, username, password, usertype))
+            conn.commit()
+        except Exception, e:
+            print str(e)
+            error = 'Email Exists!!'
+            return render_template('signup.html', error=error)
+
+
         return redirect(url_for('login_page'))
     else:
         return render_template('signup.html')
 
-@application.route('/newdatapoint', methods=['GET'])
+@application.route('/newdatapoint', methods=['GET','POST'])
 def new_datapoint():
-    return render_template('newdatapoint.html')
+    error = None
+    sql = 'select location_name from POI'
+    cur.execute(sql)
+    rows = [[str(item) for item in results] for results in cur.fetchall()]
+    list = []
+    for name in rows:
+        list.append(name[0])
+    if request.method == 'POST':
+        poiLocationName = request.form['locationname']
+        datatype = request.form['datatype']
+        datavalue = request.form['value']
+        timedate = request.form['timeanddate']
+        sql = "INSERT INTO DATAPOINT (PLocation_Name, DateRecorded, Data_Value, DType, Accepted) VALUES (%s, %s,%s,%s,%s)"
+        try:
+            cur.execute(sql, (poiLocationName, timedate, datavalue, datatype, False))
+            conn.commit()
+            return render_template('newdatapoint.html', locationlist=list)
+        except Exception, e:
+            print str(e)
+            error = 'POI ERROR!!'
+            return render_template('newdatapoint.html', locationlist=list, error=error)
+    else:
+        return render_template('newdatapoint.html', locationlist=list)
 
 @application.route('/newlocation', methods=['GET', 'POST'])
 def new_location():
+    error = None
+    message = None
+    sqlHead = 'select city from citystate'
+    cur.execute(sqlHead)
+    rows = [[str(item) for item in results] for results in cur.fetchall()]
+    list1 = []
+    for name in rows:
+        list1.append(name[0])
+    sqlHead = 'select state from citystate'
+    cur.execute(sqlHead)
+    rows = [[str(item) for item in results] for results in cur.fetchall()]
+    list2 = []
+    for name in rows:
+        list2.append(name[0])
     if request.method == 'POST':
-        return redirect(url_for('new_location'))
+        locationname = request.form['locationname']
+        pcity = request.form['pcity']
+        pstate = request.form['pstate']
+        zipcode = request.form['zipcode']
+        sql = 'INSERT INTO POI (Location_Name, Zip_Code, PCity, PState) VALUES (%s, %s, %s, %s)'
+        try:
+            cur.execute(sql, (locationname, zipcode, pcity, pstate))
+            conn.commit()
+            error = None
+            message = 'Add New Location Successfully!'
+            return render_template('newlocation.html', message=message, error=error, citylist=list1, statelist=list2)
+        except Exception, e:
+            print str(e)
+            error = 'Input Error!!'
+            message = None
+            return render_template('newlocation.html', error=error, citylist=list1, statelist=list2)
     else:
-        return render_template('newlocation.html')
+        error = None
+        return render_template('newlocation.html', citylist=list1, statelist=list2)
 
 @application.route('/pendingdatapoint', methods=['GET'])
 def pending_datapoint():
