@@ -3,7 +3,7 @@ import sys, os
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 from flaskext.mysql import MySQL
-
+import ast
 
 from settings import APP_STATIC
 
@@ -17,7 +17,7 @@ application.debug = True
 
 mysql = MySQL()
 application.config['MYSQL_DATABASE_USER'] = 'root'
-application.config['MYSQL_DATABASE_PASSWORD'] = '9404122004'
+application.config['MYSQL_DATABASE_PASSWORD'] = 'FriApr14'
 application.config['MYSQL_DATABASE_DB'] = 'city82'
 application.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
@@ -75,24 +75,49 @@ def choose_function():
 @application.route('/signup', methods=['GET', 'POST'])
 def signup():
     error = None
+    message = None
+    sqlHead = 'select city from citystate'
+    cur.execute(sqlHead)
+    rows = [[str(item) for item in results] for results in cur.fetchall()]
+    list1 = []
+    for name in rows:
+        list1.append(name[0])
+    sqlHead = 'select state from citystate'
+    cur.execute(sqlHead)
+    rows = [[str(item) for item in results] for results in cur.fetchall()]
+    list2 = []
+    for name in rows:
+        list2.append(name[0])
+
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
         password = request.form['userpass']
         usertype = request.form['usertype']
-        sql = "INSERT INTO USER (email,username,password,usertype) VALUES (%s, %s,%s,%s)"
+
+        if usertype == 'city_official':
+            title = request.form['usertitle']
+            approved = False
+            ucity = request.form['usercity']
+            ustate = request.form['userstate']
+        else:
+            title = None
+            approved = True
+            ucity = None
+            ustate = None
+
+        sql = "INSERT INTO USER (email,username,password,usertype,title,approved,ucity,ustate) VALUES (%s,%s,%s,%s,%s,%r,%s,%s)"
         try:
-            cur.execute(sql, (email, username, password, usertype))
+            cur.execute(sql, (email, username, password, usertype, title, approved, ucity, ustate))
             conn.commit()
         except Exception, e:
             print str(e)
-            error = 'Email Exists!!'
-            return render_template('signup.html', error=error)
-
+            error = e
+            return render_template('signup.html', error=error, citylist=list1, statelist=list2)
 
         return redirect(url_for('login_page'))
     else:
-        return render_template('signup.html')
+        return render_template('signup.html', citylist=list1, statelist=list2)
 
 @application.route('/newdatapoint', methods=['GET','POST'])
 def new_datapoint():
@@ -157,11 +182,28 @@ def new_location():
         error = None
         return render_template('newlocation.html', citylist=list1, statelist=list2)
 
-@application.route('/pendingdatapoint', methods=['GET'])
+@application.route('/pendingdatapoint', methods=['GET', 'POST'])
 def pending_datapoint():
     cur.execute("SELECT PLocation_Name, DType, Data_Value, DateRecorded FROM DATAPOINT WHERE NOT Accepted;")
     entries = cur.fetchall()
-    return render_template('pendingdatapoint.html', entries=entries)
+    if request.method == 'POST':
+        checklist = request.form.getlist('check')
+        checklist = [str(x) for x in checklist]
+        if request.form['action'] == 'Reject':
+            for value in checklist:
+                print value
+                index = int(value)
+                cur.execute("DELETE FROM DATAPOINT WHERE PLocation_Name = %s AND DateRecorded = %s;", [entries[index][0], entries[index][3]])
+        else:
+            for value in checklist:
+                print value
+                index = int(value)
+                cur.execute("UPDATE DATAPOINT SET Accepted = 1 WHERE PLocation_Name = %s AND DateRecorded = %s;", [entries[index][0], entries[index][3]])
+        return redirect(url_for('pending_datapoint'))
+    else:
+        #cur.execute("SELECT PLocation_Name, DType, Data_Value, DateRecorded FROM DATAPOINT WHERE NOT Accepted;")
+        #entries = cur.fetchall()
+        return render_template('pendingdatapoint.html', entries=entries)
 
 @application.route('/pendingaccount', methods=['GET'])
 def pending_account():

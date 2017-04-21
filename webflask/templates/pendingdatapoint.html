@@ -42,15 +42,14 @@
         <div class="header clearfix">
           <nav>
             <ul class="nav nav-pills pull-right">
-              <li role="presentation" class="active"><a href="#">Sign In</a></li>
-              <li role="presentation"><a href="#">Sign Up</a></li>
+              <li role="presentation" class="active"><a href="{{ url_for('login_page') }}">Sign In</a></li>
+              <li role="presentation"><a href="{{ url_for('signup') }}">Sign Up</a></li>
             </ul>
           </nav>
           <h3 class="text-muted">Online System</h3>
         </div>
 
         <div class="jumbotron">
-          <form class="form-signin">
             <h2 class="form-signin-heading">Pending Data Point</h2>
             <table class="table table-striped">
               <thead>
@@ -62,36 +61,24 @@
                   <th>Time and Date</th>
                 </tr>
               </thead>
+              <form action="{{ url_for('pending_datapoint') }}" method="post" class="form-signin">
               <tbody>
+                {% set count = [0] %}
                 {% for row in entries %}
                   <tr>
                   <td>
-                    <label><input type="checkbox" value="1"></label></td>
+                    <label><input type="checkbox" name="check" value="{{ count[0] }}"></label></td>
                     <td>{{ row[0] }}</td>
                     <td>{{ row[1] }}</td>
                     <td>{{ row[2] }}</td>
                     <td>{{ row[3] }}</td>
                   </tr>
+                  {% if count.append(count.pop() + 1) %}
+                  {% endif %}
                 {% endfor %}
-                <tr>
-                  <td>
-                    <label><input type="checkbox" value="1"></label></td>
-                    <td>Georgia Tech</td>
-                    <td>Mold</td>
-                    <td>12345</td>
-                    <td>01/31/2016</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label><input type="checkbox" value="2"></label></td>
-                      <td>Emory</td>
-                      <td>Air Quality</td>
-                      <td>123</td>
-                      <td>03/31/2016</td>
-                    </tr>
                   </tbody>
                 </table>
-                <a class="btn btn-lg btn-primary btn-signin" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;" href="{{ url_for('choose_function') }}">Back</a>
+                <a class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 20px;" href="{{ url_for('choose_function') }}">Back</a>
 
                 <input class="btn btn-lg btn-primary btn-signin" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;" name="action" value="Reject" />
 
@@ -108,6 +95,6 @@
 
 
           <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-          <script src="{{ url_for('static', filename='js/e10-viewport-bug-workaround.js') }}"></script>
+          <script src="{{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }}"></script>
         </body>
         </html>
