@@ -50,30 +50,36 @@
         </div>
 
         <div class="jumbotron">
-          <form class="form-signin">
+          <form class="form-signin" action="{{ url_for('view_poi') }}" method="post">
             <h2 class="form-signin-heading">View POI</h2>
             <div class = "row">
               <div class="col-sm-3">
                <p style="font-size: 16px; text-align: right;  margin-top: 15px;">POI location name</p></div>
-               <div class = "col-sm-6"><select class="selectDP">
-                <option value="1">1</option>
-                <option value="2">2</option>
+               <div class = "col-sm-6"><select class="selectDP" name="locationname">
+                <option value="null">Not Selected</option>
+                {% for location in namelist %}
+                    <option value="{{ location }}">{{ location }}</option>
+                {% endfor %}
               </select></div>
             </div>
             <div class = "row">
               <div class="col-sm-3">
                 <p style="font-size: 16px; text-align: right;  margin-top: 15px;">City</p></div>
-                <div class = "col-sm-6"><select class="selectDP">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
+                <div class = "col-sm-6"><select class="selectDP" name="city">
+                  <option value="null">Not Selected</option>
+                  {% for city in citylist %}
+                        <option value="{{ city }}">{{ city }}</option>
+                  {% endfor %}
                 </select></div>
               </div>
               <div class = "row">
                 <div class="col-sm-3">
                   <p style="font-size: 16px; text-align: right;  margin-top: 15px;">State</p></div>
-                  <div class = "col-sm-6"><select class="selectDP">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
+                  <div class = "col-sm-6"><select class="selectDP" name="state">
+                    <option value="null">Not Selected</option>
+                    {% for state in statelist %}
+                        <option value="{{ state }}">{{ state }}</option>
+                    {% endfor %}
                   </select></div>
                 </div>
                 <div class="row">
@@ -82,14 +88,15 @@
                  </div>
                  <div class="col-sm-6">
                    <label for="inputPassword" class="sr-only">Zip Code</label>
-                   <input id="inputPassword" class="form-control" placeholder="Zip Code" >
+                   <input id="inputPassword" name="zipcode" class="form-control" placeholder="Zip Code" >
                  </div>
                </div>
                <div class = "row">
                 <div class="col-sm-3">
                   <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Flagged?</p></div>
                   <div class = "col-sm-1">
-                    <label><input type="checkbox" style="margin-top: 15px;" value="1"></label>
+                    <label><input name="flag" type="checkbox" style="margin-top: 15px;" value="1">
+                    </label>
                   </div>
                 </div>
 
@@ -98,15 +105,15 @@
                     <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Date flagged</p></div>
                     <div class = "col-sm-4">
                       <label for="StartDate" class="sr-only">Start Date</label>
-                      <input id="StartDate" class="form-control" placeholder="Start Date" type="date">
+                      <input id="StartDate" value="0000-00-00" name="startdate" class="form-control" placeholder="Start Date" type="date">
                     </div>
 
                     <div class="col-sm-1">                  <p style="font-size: 16px; text-align: center;  margin-top: 15px;">to</p></div>
                     <div class = "col-sm-4">
                       <label for="EndDate" class="sr-only">End Date</label>
-                      <input id="EndDate" class="form-control" placeholder="End Date" type="date">
+                      <input id="EndDate" value="9999-99-99" name="enddate" class="form-control" placeholder="End Date" type="date">
                     </div>
-                  </div>
+
 
                   <a class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 20px;" type="submit" href="{{ url_for('choose_function')}}">Back</a>
                   <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 20px;" type="reset">Reset filter</button>
@@ -124,25 +131,17 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Georgia Tech</td>
-                        <td>Atlanta</td>
-                        <td>GA</td>
-                        <td>123456</td>
-                        <td>yes</td>
-                        <td>01/31/2016</td>
-                      </tr>
-                      <tr>
-                        <td>Georgia Tech</td>
-                        <td>Atlanta</td>
-                        <td>GA</td>
-                        <td>123456</td>
-                        <td>yes</td>
-                        <td>01/31/2016</td>
-                      </tr>
+                      {% for row in matrix %}
+                        <tr onclick="window.document.location='/poidetail';">
+                            {% for item in row %}
+                                <td>{{ item }}</td>
+                            {% endfor %}
+                        </tr>
+                      {% endfor %}
                     </tbody>
                   </table>
                 </form>
+             </div>
               </div>
 
             </div> <!-- /container -->
