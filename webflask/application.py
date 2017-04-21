@@ -201,13 +201,28 @@ def pending_datapoint():
                 cur.execute("UPDATE DATAPOINT SET Accepted = 1 WHERE PLocation_Name = %s AND DateRecorded = %s;", [entries[index][0], entries[index][3]])
         return redirect(url_for('pending_datapoint'))
     else:
-        #cur.execute("SELECT PLocation_Name, DType, Data_Value, DateRecorded FROM DATAPOINT WHERE NOT Accepted;")
-        #entries = cur.fetchall()
         return render_template('pendingdatapoint.html', entries=entries)
 
-@application.route('/pendingaccount', methods=['GET'])
+@application.route('/pendingaccount', methods=['GET', 'POST'])
 def pending_account():
-    return render_template('pendingaccount.html')
+    cur.execute("SELECT Username, Email, UCity, UState, Title FROM USER WHERE NOT Approved;")
+    entries = cur.fetchall()
+    if request.method == 'POST':
+        checklist = request.form.getlist('check')
+        checklist = [str(x) for x in checklist]
+        if request.form['action'] == 'Reject':
+            for value in checklist:
+                print value
+                index = int(value)
+                cur.execute("DELETE FROM USER WHERE Email = %s;", [entries[index][1]])
+        else:
+            for value in checklist:
+                print value
+                index = int(value)
+                cur.execute("UPDATE USER SET Approved = 1 WHERE Email = %s;", [entries[index][1]])
+        return redirect(url_for('pending_account'))
+    else:
+        return render_template('pendingaccount.html', entries=entries)
 
 @application.route('/viewpoi', methods=['GET'])
 def view_poi():

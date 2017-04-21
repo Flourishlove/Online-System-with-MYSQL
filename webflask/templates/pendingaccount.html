@@ -42,18 +42,18 @@
         <div class="header clearfix">
           <nav>
             <ul class="nav nav-pills pull-right">
-              <li role="presentation" class="active"><a href="#">Sign In</a></li>
-              <li role="presentation"><a href="#">Sign Up</a></li>
+              <li role="presentation" class="active"><a href="{{ url_for('login_page') }}">Sign In</a></li>
+              <li role="presentation"><a href="{{ url_for('signup') }}">Sign Up</a></li>
             </ul>
           </nav>
           <h3 class="text-muted">Online System</h3>
         </div>
 
         <div class="jumbotron">
-          <form class="form-signin">
             <h2 class="form-signin-heading">Pending Account</h2>
             <table class="table table-striped">
               <thead>
+              <form action="{{ url_for('pending_account') }}" method="post" class="form-signin">
                 <tr>
                   <th>Select</th>
                   <th>User name</th>
@@ -64,31 +64,27 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <label><input type="checkbox" value="1"></label></td>
-                    <td>George</td>
-                    <td>abc@gmail.com</td>
-                    <td>Atlanta</td>
-                    <td>GA</td>
-                    <td>Mayor</td>
-                  </tr>
+              {% set count = [0] %}
+                {% for row in entries %}
                   <tr>
-                    <td>
-                      <label><input type="checkbox" value="2"></label></td>
-                      <td>Emory</td>
-                      <td>Air Quality</td>
-                      <td>123</td>
-                      <td>03/31/2016</td>
-                      <td>123</td>
-                    </tr>
+                  <td>
+                    <label><input type="checkbox" name="check" value="{{ count[0] }}"></label></td>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                  </tr>
+                  {% if count.append(count.pop() + 1) %}
+                  {% endif %}
+                {% endfor %}
                   </tbody>
                 </table>
-                <button class="btn btn-lg btn-primary btn-signin" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;">Back</button>
+                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 20px;">Back</button>
 
-                <button class="btn btn-lg btn-primary btn-signin" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;">Reject</button>
+                <button class="btn btn-lg btn-primary btn-signin" name="action" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;">Reject</button>
 
-                <button class="btn btn-lg btn-primary btn-signin" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;">Accept</button>
+                <button class="btn btn-lg btn-primary btn-signin" name="action" type="submit" style="width: 150px; margin-right: 20px; margin-left: 20px;">Accept</button>
 
 
               </form>
@@ -102,6 +98,6 @@
 
 
           <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-          <script src="{{ url_for('static', filename='js/e10-viewport-bug-workaround.js') }}"></script>
+          <script src="{{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }}"></script>
         </body>
         </html>
