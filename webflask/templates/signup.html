@@ -1,108 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../favicon.ico">
 
-    <title>Online System</title>
+  <title>Online System</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <!-- Bootstrap core CSS -->
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/ie10-viewport-bug-workaround.css') }}">
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/ie10-viewport-bug-workaround.css') }}">
 
-    <!-- Custom styles for this template -->
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/signup.css') }}">
+  <!-- Custom styles for this template -->
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/signup.css') }}">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="{{ url_for('static', filename='js/ie-emulation-modes-warning.js') }}"></script>
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <script src="{{ url_for('static', filename='js/ie-emulation-modes-warning.js') }}"></script>
 
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
+      <![endif]-->
+    </head>
 
-  <body>
+    <body>
 
-    <div class="container">
-      <div class="header clearfix">
-        <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation"><a href="{{ url_for('login_page') }}">Sign In</a></li>
-            <li role="presentation" class="active"><a href="#">Sign Up</a></li>
-          </ul>
-        </nav>
-        <h3 class="text-muted">Online System</h3>
-      </div>
+      <div class="container">
+        <div class="header clearfix">
+          <nav>
+            <ul class="nav nav-pills pull-right">
+              <li role="presentation"><a href="{{ url_for('login_page') }}">Sign In</a></li>
+              <li role="presentation" class="active"><a href="#">Sign Up</a></li>
+            </ul>
+          </nav>
+          <h3 class="text-muted">Online System</h3>
+        </div>
 
-      <div class="jumbotron">
+        <div class="jumbotron">
 
-      <form class="form-signin" action="{{ url_for('signup') }}"  data-toggle="validator" method="post">
-        <h2 class="form-signin-heading">Please Sign Up</h2>
-        <label for="inputUsername" class="sr-only">Username</label>
-                <input id="inputUsername" name="username" class="form-control" placeholder="Username" required="" autofocus="">
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input id="inputEmail" class="form-control" name="email" placeholder="Email address" required="" type="email">
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input id="inputPassword" class="form-control" name="userpass" placeholder="Password" required="" type="password">
-        <label for="confirmPassword" class="sr-only">Confirm Password</label>
-        <input id="confirmPassword" class="form-control" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm Password" required="" type="password" oninput="check(this)">
-        <script language='javascript' type='text/javascript'>
-          function check(input) {
-        if (input.value != document.getElementById("inputPassword").value) {
-            input.setCustomValidity('Password not matching.');
-        } else {
+          <form class="form-signin" action="{{ url_for('signup') }}"  data-toggle="validator" method="post">
+            <h2 class="form-signin-heading">Please Sign Up</h2>
+            <label for="inputUsername" class="sr-only">Username</label>
+            <input id="inputUsername" name="username" class="form-control" placeholder="Username" required="" autofocus="">
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input id="inputEmail" class="form-control" name="email" placeholder="Email address" required="" type="email">
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input id="inputPassword" class="form-control" name="userpass" placeholder="Password" required="" type="password">
+            <label for="confirmPassword" class="sr-only">Confirm Password</label>
+            <input id="confirmPassword" class="form-control" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm Password" required="" type="password" oninput="check(this)">
+            <script language='javascript' type='text/javascript'>
+              function check(input) {
+                if (input.value != document.getElementById("inputPassword").value) {
+                  input.setCustomValidity('Password not matching.');
+                } else {
             // input is valid -- reset the error message
             input.setCustomValidity('');
+          }
         }
-    }
-</script>
-  <div class="dropdown">
-    <select name="usertype" class="selectDP">
-      <option value="city_scientist">City Scientist</option>
-      <option value="city_official">City Official</option>
+      </script>
+      <div class="dropdown">
+        <select name="usertype" class="selectDP" id="typeselector" onchange="showOfficial()">
+          <option value="city_scientist">City Scientist</option>
+          <option value="city_official">City Official</option>
+        </select>
+        <div id="OfficialInfo" style="display: none">
+          <div class = "row">
+            <div class="col-sm-3">
+             <p style="font-size: 16px; text-align: right;  margin-top: 15px;">City</p></div>
+             <div class = "col-sm-6"><select class="selectDP" name="usercity">
+              {% for city in citylist %}
+              <option value="{{ city }}">{{ city }}</option>
+              {% endfor %}
+            </select></div>
+          </div>
 
-    </select>
-
-  </div>
-
-
-        <div class="checkbox">
-        {% if error %}
-            <div class="alert alert-danger">
-                <strong>Wrong: </strong>{{ error }}
-            </div>
-          {% endif %}
+          <div class="row">
+            <div class="col-sm-3">
+             <p style="font-size: 16px;  text-align: right; margin-top: 15px;">State</p>
+           </div>
+           <div class = "col-sm-6"><select class="selectDP" name="userstate">
+            {% for state in statelist %}
+            <option value="{{ state }}">{{ state }}</option>
+            {% endfor %}
+          </select>
         </div>
-        <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign Up</button>
-
-        <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" style="margin-top: 10px;">Sign Up</button>
-
-      </form>
       </div>
 
-      <footer class="footer">
-        <p>&copy; 2016 Company, Inc.</p>
-      </footer>
+      <div class="row">
+       <div class="col-sm-3">
+         <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Title</p>
+       </div>
+       <div class="col-sm-9">
+         <label for="inputTitle" class="sr-only">Title</label>
+         <input name="usertitle" id="inputTitle" placeholder="Title" class="form-control">
+       </div>
+     </div>
+   </div>
 
-    </div> <!-- /container -->
+<script type="text/javascript">
+  function showOfficial(){
+    var x = document.getElementById("typeselector").value;
+    if(x == "city_official"){
+      document.getElementById("OfficialInfo").style = "";
+    }
+    else if(x == "city_scientist"){
+      document.getElementById("OfficialInfo").style = "display:none";
+    }
+  }
+</script>
+
+ </div>
 
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="{{ url_for('static', filename='js/e10-viewport-bug-workaround.js') }}"></script>
-  </body>
+ <div class="checkbox">
+  {% if error %}
+  <div class="alert alert-danger">
+    <strong>Wrong: </strong>{{ error }}
+  </div>
+  {% endif %}
+</div>
+<button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign Up</button>
+
+<button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" style="margin-top: 10px;">Back</button>
+
+</form>
+</div>
+
+<footer class="footer">
+  <p>&copy; 2016 Company, Inc.</p>
+</footer>
+
+</div> <!-- /container -->
+
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="{{ url_for('static', filename='js/e10-viewport-bug-workaround.js') }}"></script>
+</body>
 </html>
