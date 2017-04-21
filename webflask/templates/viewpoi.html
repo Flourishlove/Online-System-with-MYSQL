@@ -132,7 +132,7 @@
                     </thead>
                     <tbody>
                       {% for row in matrix %}
-                        <tr onclick="window.document.location='/poidetail';">
+                        <tr onclick="window.document.location='/poidetail?name={{ row[0] }}';">
                             {% for item in row %}
                                 <td>{{ item }}</td>
                             {% endfor %}
