@@ -54,6 +54,13 @@ CREATE TABLE POI
     FOREIGN KEY(PCity, PState) REFERENCES CITYSTATE(City, State)
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
+INSERT INTO `POI` (`Location_Name`, `Flag`, `Date_Flagged`, `Zip_Code`, `PCity`, `PState`)
+VALUES
+    ('Georgia Tech', FALSE, DATE '2015-12-17', 310058, 'Atlanta', 'Georgia'),
+    ('UCLA', FALSE, DATE '2017-12-17', 819232, 'Los Angeles', 'California'),
+    ('ASU', FALSE, DATE '2012-07-17', 182421, 'Phoenix', 'Arizona'),
+    ('MIT', FALSE, DATE '2016-03-21', 519932, 'Boston', 'Massachusetts');
+
 # table DATATYPE
 # ------------------------------------------------------------
 DROP TABLE IF EXISTS `DATATYPE`;
@@ -62,6 +69,11 @@ CREATE TABLE DATATYPE
      Type VARCHAR(50) NOT NULL,
      PRIMARY KEY(Type)
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+INSERT INTO `DATATYPE` (`Type`)
+VALUES
+    ('mold'),
+    ('airquality');
 
 # table DATAPOINT
 # ------------------------------------------------------------
@@ -78,3 +90,9 @@ CREATE TABLE DATAPOINT
     FOREIGN KEY(DType) REFERENCES DATATYPE(Type)
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
+INSERT INTO `DATAPOINT` (`PLocation_Name`, `DateRecorded`, `Data_Value`, `Accepted`, `DType`)
+VALUES
+    ('Georgia Tech', DATE '2017-04-13', 8712, FALSE, 'mold'),
+    ('ASU', DATE '2016-05-28', 783, FALSE, 'airquality'),
+    ('UCLA', DATE '2012-04-13', 722, FALSE, 'mold'),
+    ('MIT', DATE '2016-03-21', 32, TRUE, 'airquality');
