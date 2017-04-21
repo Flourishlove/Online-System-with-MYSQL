@@ -50,14 +50,14 @@
         </div>
 
         <div class="jumbotron">
-          <form class="form-signin">
+          <form action="{{ url_for('poi_detail') }}" method="post" class="form-signin">
             <h2 class="form-signin-heading">POI detail</h2>
             <div class = "row">
               <div class="col-sm-3">
                <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Type</p></div>
                <div class = "col-sm-6"><select class="selectDP">
-                <option value="1">1</option>
-                <option value="2">2</option>
+                <option value="mold">Mold</option>
+                <option value="airquality">Air Quality</option>
               </select></div>
             </div>
             <div class = "row">
@@ -65,12 +65,12 @@
                 <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Data Value</p></div>
                 <div class = "col-sm-4">
                   <label for="StartValue" class="sr-only">Start Value</label>
-                  <input id="StartValue" class="form-control">
+                  <input name="StartValue" class="form-control">
                 </div>
                 <div class="col-sm-1">                  <p style="font-size: 16px; text-align: center;  margin-top: 15px;">to</p></div>
                 <div class = "col-sm-4">
-                  <label for="EndDate" class="sr-only">End Value</label>
-                  <input id="EndDate" class="form-control">
+                  <label for="EndValue" class="sr-only">End Value</label>
+                  <input name="EndValue" class="form-control">
                 </div>
               </div>
 
@@ -79,18 +79,20 @@
                   <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Time and Date</p></div>
                   <div class = "col-sm-4">
                     <label for="StartDate" class="sr-only">Start Date</label>
-                    <input id="StartDate" class="form-control" placeholder="Start Date" type="date">
+                    <input name="StartDate" class="form-control" placeholder="Start Date" type="date">
                   </div>
                   <div class="col-sm-1">                  <p style="font-size: 16px; text-align: center;  margin-top: 15px;">to</p></div>
                   <div class = "col-sm-4">
                     <label for="EndDate" class="sr-only">End Date</label>
-                    <input id="EndDate" class="form-control" placeholder="Start Date" type="date">
+                    <input name="EndDate" class="form-control" placeholder="Start Date" type="date">
                   </div>
                 </div>
 
                 <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" type="reset">Reset filter</button>
-                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 100px; margin-left: 20px;" type="submit">Apply filter</button>
+                <button class="btn btn-lg btn-primary btn-signin" name="action1" style="width: 150px; margin-right: 100px; margin-left: 20px;" type="submit">Apply filter</button>
+                </form>
 
+                <form action="{{ url_for('poi_detail') }}" method="post" class="form-signin">
                 <table class="table table-striped" style="margin-top: 40px;" align="center">
                   <thead>
                     <tr>
@@ -107,7 +109,7 @@
                       <td>12</td>
                       <td>01/31/2016</td>
                     </tr>
-                    
+
                   </tbody>
                 </table>
                 <a class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 50px;" type="submit" href="{{ url_for('view_poi')}}">Back</a>
@@ -116,6 +118,6 @@
             </div>
           </div> <!-- /container -->
           <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-          <script src="{{ url_for('static', filename='js/e10-viewport-bug-workaround.js') }}"></script>
+          <script src="{{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }}"></script>
         </body>
         </html>

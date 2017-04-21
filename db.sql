@@ -37,7 +37,9 @@ CREATE TABLE USER
 
 INSERT INTO `USER` (`Email`, `Username`, `Password`, `UserType`, `Title`, `Approved`, `UCity`, `UState`)
 VALUES
-    ('lxy.meteor@gmail.com', 'Admin', 'FriApr14', 'admin', NULL, NULL, 'Atlanta', 'Georgia');
+    ('lxy.meteor@gmail.com', 'Admin', 'FriApr14', 'admin', NULL, NULL, 'Atlanta', 'Georgia'),
+    ('lry@gmail.com', 'lyr', 'FriApr14', 'city_official', NULL, FALSE, 'Phoenix', 'Arizona'),
+    ('xinzhihao.meteor@gmail.com', 'xzh', 'FriApr14', 'city_official', NULL, FALSE, 'Boston', 'Massachusetts');
 
 # table POI
 # ------------------------------------------------------------

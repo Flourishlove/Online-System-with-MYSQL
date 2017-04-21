@@ -224,13 +224,109 @@ def pending_account():
     else:
         return render_template('pendingaccount.html', entries=entries)
 
-@application.route('/viewpoi', methods=['GET'])
+@application.route('/viewpoi', methods=['GET','POST'])
 def view_poi():
-    return render_template('viewpoi.html')
+    sqlHead = 'select Location_Name from poi'
+    cur.execute(sqlHead)
+    rows = [[str(item) for item in results] for results in cur.fetchall()]
+    list_location = []
+    for name in rows:
+        list_location.append(name[0])
+    sqlHead = 'select state from citystate'
+    cur.execute(sqlHead)
+    rows = [[str(item) for item in results] for results in cur.fetchall()]
+    list_state = []
+    for name in rows:
+        list_state.append(name[0])
+    sqlHead = 'select city from citystate'
+    cur.execute(sqlHead)
+    rows = [[str(item) for item in results] for results in cur.fetchall()]
+    list_city = []
+    for name in rows:
+        list_city.append(name[0])
+    if request.method == 'POST':
+        locationNmae = request.form['locationname']
+        city = request.form['city']
+        state = request.form['state']
+        zipcode = request.form['zipcode']
+        flag = request.form.getlist('flag')
+        startdate = request.form['startdate']
+        enddate = request.form['enddate']
+        sql = 'select Location_Name,PCity,PState,Zip_Code,Flag,Date_Flagged from poi '
+        needAnd = False
+        needWhere = True
+        if locationNmae != 'null':
+            sql +='where Location_Name=\''+locationNmae+'\' '
+            needAnd = True
+            needWhere = False
+        if city != 'null':
+            if needWhere:
+                sql += 'where '
+                needWhere = False
+            else:
+                sql += 'and '
+            sql += 'pcity=\''+city+'\' '
+        if state != 'null':
+            if needWhere:
+                sql += 'where '
+                needWhere = False
+            else:
+                sql += 'and '
+            sql += 'pstate=\''+state+'\' '
+        if len(zipcode) > 0:
+            print(zipcode)
+            if needWhere:
+                sql += 'where '
+                needWhere = False
+            else:
+                sql += 'and '
+            sql += 'Zip_Code='+zipcode+' '
 
-@application.route('/poidetail', methods=['GET'])
+        if len(startdate) > 0 and len(enddate) > 0:
+            print('startdate='+startdate)
+            print('enddate='+enddate)
+            if needWhere:
+                sql += 'where '
+                needWhere = False
+            else:
+                sql += 'and '
+            sql += 'Date_Flagged between \''+startdate+'\' and \''+enddate+'\' '
+        if len(flag) > 0:
+            print(flag)
+            if needWhere:
+                sql += 'where '
+                needWhere = False
+            else:
+                sql += 'and '
+            sql += 'Flag=True'
+        print(sql)
+
+        matrix = []
+        try:
+            cur.execute(sql)
+            conn.commit()
+            matrix =cur.fetchall()
+            print(matrix)
+
+        except Exception,e:
+            print(e)
+
+        return render_template('viewpoi.html', matrix=matrix, namelist=list_location, citylist=list_city, statelist=list_state)
+    else:
+        return render_template('viewpoi.html', namelist=list_location, citylist=list_city, statelist=list_state)
+
+@application.route('/poidetail', methods=['GET', 'POST'])
 def poi_detail():
-    return render_template('poidetail.html')
+    if request.method == 'POST':
+        StartDate = request.form['StartDate']
+        EndValue = request.form['EndValue']
+        StartDate = request.form['StartDate']
+        EndDate = request.form['EndDate']
+        print StartDate
+        cur.execute("SELECT Username, Email, UCity, UState, Title FROM POI WHERE NOT Approved;")
+        return redirect(url_for('poi_detail'))
+    else:
+        return render_template('poidetail.html')
 
 @application.route('/poireport', methods=['GET'])
 def poi_report():
