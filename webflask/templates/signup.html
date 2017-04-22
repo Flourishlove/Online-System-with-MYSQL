@@ -76,26 +76,40 @@
           <option value="city_official">City Official</option>
         </select>
         <div id="OfficialInfo" style="display: none">
-          <div class = "row">
-            <div class="col-sm-3">
-             <p style="font-size: 16px; text-align: right;  margin-top: 15px;">City</p></div>
-             <div class = "col-sm-6"><select class="selectDP" name="usercity">
-              {% for city in citylist %}
-              <option value="{{ city }}">{{ city }}</option>
-              {% endfor %}
-            </select></div>
-          </div>
 
           <div class="row">
             <div class="col-sm-3">
              <p style="font-size: 16px;  text-align: right; margin-top: 15px;">State</p>
            </div>
-           <div class = "col-sm-6"><select class="selectDP" name="userstate">
-            {% for state in statelist %}
-            <option value="{{ state }}">{{ state }}</option>
+           <div class = "col-sm-6"><select class="selectDP" name="userstate" id="state" onchange="checkCity()">
+           {% for state in rows %}
+            <option value="{{ state[1] }}">{{ state[1] }}</option>
             {% endfor %}
           </select>
         </div>
+      </div>
+
+      <div class = "row">
+        <div class="col-sm-3">
+         <p style="font-size: 16px; text-align: right;  margin-top: 15px;">City</p></div>
+         <div class = "col-sm-6"><select class="selectDP" name="usercity" id="city">
+          <script type="text/javascript">
+
+            function checkCity(){
+              var r = {{rows|safe}};
+              s = document.getElementById('state').value;
+              $('#city').empty();
+              for(var i = 0; i < r.length; i++){
+                if(s == r[i][1]){
+                  var cityOption = document.createElement('option');
+                  cityOption.value = cityOption.text = r[i][0];
+                  document.getElementById('city').options.add(cityOption);
+                }
+              }
+            }
+            checkCity();
+          </script>
+        </select></div>
       </div>
 
       <div class="row">
@@ -109,22 +123,22 @@
      </div>
    </div>
 
-<script type="text/javascript">
-  function showOfficial(){
-    var x = document.getElementById("typeselector").value;
-    if(x == "city_official"){
-      document.getElementById("OfficialInfo").style = "";
+   <script type="text/javascript">
+    function showOfficial(){
+      var x = document.getElementById("typeselector").value;
+      if(x == "city_official"){
+        document.getElementById("OfficialInfo").style = "";
+      }
+      else if(x == "city_scientist"){
+        document.getElementById("OfficialInfo").style = "display:none";
+      }
     }
-    else if(x == "city_scientist"){
-      document.getElementById("OfficialInfo").style = "display:none";
-    }
-  }
-</script>
+  </script>
 
- </div>
+</div>
 
 
- <div class="checkbox">
+<div class="checkbox">
   {% if error %}
   <div class="alert alert-danger">
     <strong>Wrong: </strong>{{ error }}
