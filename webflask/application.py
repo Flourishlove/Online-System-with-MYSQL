@@ -318,16 +318,15 @@ def view_poi():
 @application.route('/poidetail', methods=['GET', 'POST'])
 def poi_detail():
     if request.method == 'POST':
-        datatype = request.form.get('data_type')
+        datatype = request.form['data_type']
         StartValue = request.form['StartValue']
         EndValue = request.form['EndValue']
         StartDate = request.form['StartDate']
         EndDate = request.form['EndDate']
         #location = request.form['plocation_name']
         print datatype
-        cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE (DateRecorded >= %s AND DateRecorded < %s) AND (Data_Value >= %s AND Data_Value < %s);", (StartDate, EndDate, StartValue, EndValue))
+        cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE (DateRecorded >= %s AND DateRecorded < %s) AND (Data_Value >= %s AND Data_Value < %s) AND DType = %s;", (StartDate, EndDate, StartValue, EndValue, datatype))
         entries = cur.fetchall()
-        print entries
         return render_template('poidetail.html', entries=entries)
     else:
         #location = request.form['plocation_name']
