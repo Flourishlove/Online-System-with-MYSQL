@@ -51,7 +51,7 @@
 
         <div class="jumbotron">
           <form action="{{ url_for('poi_detail') }}" method="post" class="form-signin">
-            <h2 class="form-signin-heading">POI detail</h2>
+            <h2 class="form-signin-heading">{{ plocation_name }} -- POI detail</h2>
             <div class = "row">
               <div class="col-sm-3">
                <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Type</p></div>
@@ -90,8 +90,9 @@
                   </div>
                 </div>
 
+                <input type="hidden" name="plocation_name" value="{{ plocation_name }}">
                 <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 100px;" type="reset">Reset filter</button>
-                <button class="btn btn-lg btn-primary btn-signin" name="action1" style="width: 150px; margin-right: 100px; margin-left: 20px;" type="submit">Apply filter</button>
+                <button class="btn btn-lg btn-primary btn-signin" name="action" style="width: 150px; margin-right: 100px; margin-left: 20px;" type="submit" value="filter">Apply filter</button>
                 </form>
 
                 <form action="{{ url_for('poi_detail') }}" method="post" class="form-signin">
@@ -114,7 +115,8 @@
                   </tbody>
                 </table>
                 <a class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 50px;" type="submit" href="{{ url_for('view_poi')}}">Back</a>
-                <button class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 50px; margin-left: 20px;" type="submit">Flag</button>
+                <input type="hidden" name="plocation_name" value="{{ plocation_name }}">
+                <button class="btn btn-lg btn-primary btn-signin" name="action" style="width: 150px; margin-right: 50px; margin-left: 20px;" type="submit" value="flag">Flag</button>
               </form>
             </div>
           </div> <!-- /container -->

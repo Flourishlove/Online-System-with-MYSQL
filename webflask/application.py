@@ -305,22 +305,31 @@ def view_poi():
 @application.route('/poidetail', methods=['GET', 'POST'])
 def poi_detail():
     if request.method == 'POST':
-        datatype = request.form['data_type']
-        StartValue = request.form['StartValue']
-        EndValue = request.form['EndValue']
-        StartDate = request.form['StartDate']
-        EndDate = request.form['EndDate']
-        #location = request.form['plocation_name']
-        print datatype
-        cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE (DateRecorded >= %s AND DateRecorded < %s) AND (Data_Value >= %s AND Data_Value < %s) AND DType = %s;", (StartDate, EndDate, StartValue, EndValue, datatype))
-        entries = cur.fetchall()
-        return render_template('poidetail.html', entries=entries)
+        location = request.form['plocation_name']
+        if request.form['action'] == 'filter':
+            datatype = request.form['data_type']
+            StartValue = request.form['StartValue']
+            EndValue = request.form['EndValue']
+            StartDate = request.form['StartDate']
+            EndDate = request.form['EndDate']
+
+            cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE (DateRecorded >= %s AND DateRecorded < %s) AND (Data_Value >= %s AND Data_Value < %s) AND DType = %s AND PLocation_Name = %s;", (StartDate, EndDate, StartValue, EndValue, datatype, location))
+            entries = cur.fetchall()
+            return render_template('poidetail.html', entries=entries, plocation_name=location)
+            """
+        else:
+            cur.execute("UPDATE POI SET Flag = 1 WHERE Location_Name = %s;", (location))
+            cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE PLocation_Name = %s;", (location))
+            entries = cur.fetchall()
+            print entries
+            return render_template('poidetail.html')
+            """
     else:
         location = request.args.get('plocation_name')
         cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE PLocation_Name = %s;", (location))
-
+        entries = cur.fetchall()
         #entries = request.args.get('entries')
-        return render_template('poidetail.html', plocation_name=location)
+        return render_template('poidetail.html', entries=entries, plocation_name=location)
 
 @application.route('/poireport', methods=['GET'])
 def poi_report():
