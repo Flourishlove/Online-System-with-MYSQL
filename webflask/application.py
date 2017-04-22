@@ -76,18 +76,9 @@ def choose_function():
 def signup():
     error = None
     message = None
-    sqlHead = 'select city from citystate'
+    sqlHead = 'select * from citystate'
     cur.execute(sqlHead)
     rows = [[str(item) for item in results] for results in cur.fetchall()]
-    list1 = []
-    for name in rows:
-        list1.append(name[0])
-    sqlHead = 'select state from citystate'
-    cur.execute(sqlHead)
-    rows = [[str(item) for item in results] for results in cur.fetchall()]
-    list2 = []
-    for name in rows:
-        list2.append(name[0])
 
     if request.method == 'POST':
         username = request.form['username']
@@ -113,11 +104,11 @@ def signup():
         except Exception, e:
             print str(e)
             error = e
-            return render_template('signup.html', error=error, citylist=list1, statelist=list2)
+            return render_template('signup.html', error=error, rows=rows)
 
         return redirect(url_for('login_page'))
     else:
-        return render_template('signup.html', citylist=list1, statelist=list2)
+        return render_template('signup.html', rows=rows)
 
 @application.route('/newdatapoint', methods=['GET','POST'])
 def new_datapoint():
@@ -149,18 +140,14 @@ def new_datapoint():
 def new_location():
     error = None
     message = None
-    sqlHead = 'select city from citystate'
+    sqlHead = 'select * from citystate'
     cur.execute(sqlHead)
     rows = [[str(item) for item in results] for results in cur.fetchall()]
     list1 = []
-    for name in rows:
-        list1.append(name[0])
-    sqlHead = 'select state from citystate'
-    cur.execute(sqlHead)
-    rows = [[str(item) for item in results] for results in cur.fetchall()]
     list2 = []
     for name in rows:
-        list2.append(name[0])
+        list1.append(name[0])
+        list2.append(name[1])
     if request.method == 'POST':
         locationname = request.form['locationname']
         pcity = request.form['pcity']
@@ -172,15 +159,15 @@ def new_location():
             conn.commit()
             error = None
             message = 'Add New Location Successfully!'
-            return render_template('newlocation.html', message=message, error=error, citylist=list1, statelist=list2)
+            return render_template('newlocation.html', message=message, error=error, rows=rows)
         except Exception, e:
             print str(e)
             error = 'Input Error!!'
             message = None
-            return render_template('newlocation.html', error=error, citylist=list1, statelist=list2)
+            return render_template('newlocation.html', error=error, rows=rows)
     else:
         error = None
-        return render_template('newlocation.html', citylist=list1, statelist=list2)
+        return render_template('newlocation.html', rows=rows)
 
 @application.route('/pendingdatapoint', methods=['GET', 'POST'])
 def pending_datapoint():
@@ -329,9 +316,11 @@ def poi_detail():
         entries = cur.fetchall()
         return render_template('poidetail.html', entries=entries)
     else:
-        #location = request.form['plocation_name']
+        location = request.args.get('plocation_name')
+        cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE PLocation_Name = %s;", (location))
+
         #entries = request.args.get('entries')
-        return render_template('poidetail.html')
+        return render_template('poidetail.html', plocation_name=location)
 
 @application.route('/poireport', methods=['GET'])
 def poi_report():
