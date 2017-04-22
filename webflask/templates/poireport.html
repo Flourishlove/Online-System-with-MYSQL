@@ -38,7 +38,7 @@
 
     <body>
 
-      <div class="container">
+      <div class="container" style="max-width: 2000px; width: 1200px;">
         <div class="header clearfix">
           <nav>
             <ul class="nav nav-pills pull-right">
@@ -70,56 +70,13 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Georgia Tech</td>
-                  <td>Atlanta</td>
-                  <td>GA</td>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>4</td>
-                  <td>5</td>
-                  <td>6</td>
-                  <td>7</td>
-                  <td>yes</td>
-                </tr>
-                <tr>
-                  <td>Georgia Tech</td>
-                  <td>Atlanta</td>
-                  <td>GA</td>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>4</td>
-                  <td>5</td>
-                  <td>6</td>
-                  <td>7</td>
-                  <td>yes</td>
-                </tr>
-                                <tr>
-                  <td>Georgia Tech</td>
-                  <td>Atlanta</td>
-                  <td>GA</td>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>4</td>
-                  <td>5</td>
-                  <td>6</td>
-                  <td>7</td>
-                  <td>yes</td>
-                </tr>
-                                <tr>
-                  <td>Georgia Tech</td>
-                  <td>Atlanta</td>
-                  <td>GA</td>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>4</td>
-                  <td>5</td>
-                  <td>6</td>
-                  <td>7</td>
-                  <td>yes</td>
+                {% for row in drows %}
+                    <tr>
+                            {% for item in row %}
+                                <td>{{ item }}</td>
+                            {% endfor %}
+                        </tr>
+                      {% endfor %}
                 </tr>
               </tbody>
             </table>
