@@ -55,6 +55,7 @@
             <div class = "row">
               <div class="col-sm-3">
                <p style="font-size: 16px; text-align: right;  margin-top: 15px;">POI location name</p></div>
+
                <div class = "col-sm-6"><select class="selectDP" name="locationname">
                 <option value="null">Not Selected</option>
                 {% for location in namelist %}
@@ -132,7 +133,7 @@
                     </thead>
                     <tbody>
                       {% for row in matrix %}
-                        <tr onclick="window.document.location='/poidetail?name={{ row[0] }}';">
+                        <tr onclick="window.document.location='/poidetail?plocation_name={{ row[0] }}';">
                             {% for item in row %}
                                 <td>{{ item }}</td>
                             {% endfor %}
