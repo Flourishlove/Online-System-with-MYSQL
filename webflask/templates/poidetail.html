@@ -55,10 +55,12 @@
             <div class = "row">
               <div class="col-sm-3">
                <p style="font-size: 16px; text-align: right;  margin-top: 15px;">Type</p></div>
-               <div class = "col-sm-6"><select class="selectDP">
-                <option value="mold">Mold</option>
-                <option value="airquality">Air Quality</option>
-              </select></div>
+               <div class = "col-sm-6">
+                 <select name="data_type" class="selectDP">
+                  <option value="mold">Mold</option>
+                  <option value="airquality">Air Quality</option>
+                </select>
+              </div>
             </div>
             <div class = "row">
               <div class="col-sm-3">
@@ -96,7 +98,6 @@
                 <table class="table table-striped" style="margin-top: 40px;" align="center">
                   <thead>
                     <tr>
-                      <th>Selected</th>
                       <th>Data Type</th>
                       <th>Data Value</th>
                       <th>Date and Time Flaggeed</th>
@@ -104,12 +105,17 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><label><input type="checkbox"" value="1"></label></td>
                       <td>Mold</td>
                       <td>12</td>
                       <td>01/31/2016</td>
                     </tr>
-
+                    {% for row in entries %}
+                      <tr>
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                      </tr>
+                    {% endfor %}
                   </tbody>
                 </table>
                 <a class="btn btn-lg btn-primary btn-signin" style="width: 150px; margin-right: 20px; margin-left: 50px;" type="submit" href="{{ url_for('view_poi')}}">Back</a>
