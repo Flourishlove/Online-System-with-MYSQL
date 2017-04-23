@@ -42,15 +42,15 @@
         <div class="header clearfix">
           <nav>
             <ul class="nav nav-pills pull-right">
-              <li role="presentation"><a href="#">Home</a></li>
-              <li role="presentation"><a href="#">
+              <li role="presentation"><a href="{{ url_for('choose_function') }}">Home</a></li>
+              <li role="presentation" class="active"><a href="#">
               {% if session['logged_in'] %}
               {{ session['username'] }}
             {% else %}
               Log In
             {% endif %}
             </a></li>
-            <li role="presentation"><a href="#">Log out</a></li>
+            <li role="presentation"><a href="{{ url_for('logout') }}">Log out</a></li>
             </ul>
           </nav>
           <h3 class="text-muted">Online System</h3>
@@ -96,6 +96,6 @@
 
 
       <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-      <script src="{{ url_for('static', filename='js/e10-viewport-bug-workaround.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }}"></script>
     </body>
     </html>

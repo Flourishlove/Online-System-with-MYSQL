@@ -25,6 +25,10 @@ mysql.init_app(application)
 conn = mysql.connect()
 cur = conn.cursor()
 
+@application.route('/logout', methods=['GET'])
+def logout():
+    session['logged_in'] = False
+    return redirect(url_for('login_page'))
 
 @application.route('/', methods=['GET', 'POST'])
 def login_page():
@@ -35,9 +39,9 @@ def login_page():
         password = request.form['userpass']
         cur.execute("SELECT COUNT(1) FROM USER WHERE Email = %s;", [email])
         if cur.fetchone()[0]:
-            cur.execute("SELECT Username, Password, UserType FROM USER WHERE Email = %s;", [email])
+            cur.execute("SELECT Username, Password, UserType, Approved FROM USER WHERE Email = %s;", [email])
             for row in cur.fetchall():
-                if password == row[1]:
+                if password == row[1] and row[3] == 1:
                     session['logged_in'] = True
                     session['username'] = row[0]
                     session['usertype'] = row[2]
@@ -56,6 +60,8 @@ def login_page():
 
 @application.route('/choosefunction', methods=['GET', 'POST'])
 def choose_function():
+    if not session.get('logged_in'):
+        return redirect(url_for('login_page'))
     curType = session.get('usertype')
     print curType
     if request.method == 'POST':
@@ -114,6 +120,9 @@ def signup():
 
 @application.route('/newdatapoint', methods=['GET','POST'])
 def new_datapoint():
+    if not session.get('logged_in'):
+        return redirect(url_for('login_page'))
+
     error = None
     sql = 'select location_name from POI'
     cur.execute(sql)
@@ -140,6 +149,9 @@ def new_datapoint():
 
 @application.route('/newlocation', methods=['GET', 'POST'])
 def new_location():
+    if not session.get('logged_in'):
+        return redirect(url_for('login_page'))
+
     error = None
     message = None
     sqlHead = 'select * from citystate'
@@ -173,6 +185,9 @@ def new_location():
 
 @application.route('/pendingdatapoint', methods=['GET', 'POST'])
 def pending_datapoint():
+    if not session.get('logged_in'):
+        return redirect(url_for('login_page'))
+
     cur.execute("SELECT PLocation_Name, DType, Data_Value, DateRecorded FROM DATAPOINT WHERE NOT Accepted;")
     entries = cur.fetchall()
     if request.method == 'POST':
@@ -196,6 +211,9 @@ def pending_datapoint():
 
 @application.route('/pendingaccount', methods=['GET', 'POST'])
 def pending_account():
+    if not session.get('logged_in'):
+        return redirect(url_for('login_page'))
+
     cur.execute("SELECT Username, Email, UCity, UState, Title FROM USER WHERE NOT Approved;")
     entries = cur.fetchall()
     if request.method == 'POST':
@@ -219,6 +237,9 @@ def pending_account():
 
 @application.route('/viewpoi', methods=['GET','POST'])
 def view_poi():
+    if not session.get('logged_in'):
+        return redirect(url_for('login_page'))
+
     sqlHead = 'select Location_Name from poi'
     cur.execute(sqlHead)
     rows = [[str(item) for item in results] for results in cur.fetchall()]
@@ -310,6 +331,9 @@ def view_poi():
 
 @application.route('/poidetail', methods=['GET', 'POST'])
 def poi_detail():
+    if not session.get('logged_in'):
+        return redirect(url_for('login_page'))
+
     if request.method == 'POST':
         location = request.form['plocation_name']
         if request.form['action'] == 'filter':
@@ -367,6 +391,8 @@ def poi_detail():
 
 @application.route('/poireport', methods=['GET'])
 def poi_report():
+    if not session.get('logged_in'):
+        return redirect(url_for('login_page'))
 
     mold = "mold"
     airquality = "airquality"

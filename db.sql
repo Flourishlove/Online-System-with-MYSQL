@@ -37,7 +37,7 @@ CREATE TABLE USER
 
 INSERT INTO `USER` (`Email`, `Username`, `Password`, `UserType`, `Title`, `Approved`, `UCity`, `UState`)
 VALUES
-    ('lxy.meteor@gmail.com', 'Admin', 'FriApr14', 'admin', NULL, NULL, 'Atlanta', 'Georgia'),
+    ('lxy.meteor@gmail.com', 'Admin', 'FriApr14', 'admin', NULL, TRUE, 'Atlanta', 'Georgia'),
     ('lry@gmail.com', 'lyr', 'FriApr14', 'city_official', NULL, FALSE, 'Phoenix', 'Arizona'),
     ('xinzhihao.meteor@gmail.com', 'xzh', 'FriApr14', 'city_official', NULL, FALSE, 'Boston', 'Massachusetts');
 
@@ -84,7 +84,7 @@ CREATE TABLE DATAPOINT
 (
     PLocation_Name  VARCHAR(50) NOT NULL,
     DateRecorded DATETIME  NOT NULL,
-    Data_Value VARCHAR(50) NOT NULL,
+    Data_Value INT NOT NULL,
     Accepted BOOLEAN DEFAULT NULL,
     DType VARCHAR(50) NOT NULL,
     PRIMARY KEY(PLocation_Name, DateRecorded),
