@@ -333,7 +333,20 @@ def poi_detail():
 
 @application.route('/poireport', methods=['GET'])
 def poi_report():
-    return render_template('poireport.html')
+
+    mold = "mold"
+    airquality = "airquality"
+
+    sql2 = '(select t2.PLocation_Name, t3.PCity, t3.PState, t1.mmin, t1.mavg, t1.mmax, t2.aqmin, t2.aqavg, t2.aqmax, Cm + Caq, Flag from ((select PLocation_Name, MIN(Data_Value) as mmin, AVG(Data_Value) as mavg, MAX(Data_Value) as mmax, COUNT(*) as Cm from DATAPOINT as A where Dtype = \'' + mold + '\' group by PLocation_Name) t1 right join (select PLocation_Name, MIN(Data_Value) as aqmin, AVG(Data_Value) as aqavg, MAX(Data_Value) as aqmax, COUNT(*) as Caq from DATAPOINT as A where Dtype = \'' + airquality + '\' group by PLocation_Name) t2 on t1.PLocation_Name = t2.PLocation_Name) join (select Location_Name, PCity, PState, Flag from POI) t3 on t2.PLocation_Name = t3.Location_Name)'
+
+    sql3 = '(select t4.PLocation_Name, t6.PCity, t6.PState, t4.mmin, t4.mavg, t4.mmax, t5.aqmin, t5.aqavg, t5.aqmax, Cm + Caq, Flag from ((select PLocation_Name, MIN(Data_Value) as mmin, AVG(Data_Value) as mavg, MAX(Data_Value) as mmax, COUNT(*) as Cm from DATAPOINT as A where Dtype = \'' + mold + '\' group by PLocation_Name) t4 left join (select PLocation_Name, MIN(Data_Value) as aqmin, AVG(Data_Value) as aqavg, MAX(Data_Value) as aqmax, COUNT(*) as Caq from DATAPOINT as A where Dtype = \'' + airquality + '\' group by PLocation_Name) t5 on t4.PLocation_Name = t5.PLocation_Name) join (select Location_Name, PCity, PState, Flag from POI) t6 on t4.PLocation_Name = t6.Location_Name)'
+
+    sql1 = sql3 + ' union ' + sql2
+
+    cur.execute(sql1)
+    drows = [[str(item) for item in results] for results in cur.fetchall()]
+
+    return render_template('poireport.html', drows=drows)
 
 @application.route('/', methods=['GET'])
 def mainpage():
