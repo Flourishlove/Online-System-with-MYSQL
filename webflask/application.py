@@ -40,7 +40,8 @@ def login_page():
                 if password == row[1]:
                     session['logged_in'] = True
                     session['username'] = row[0]
-                    user_type = row[2]
+                    session['usertype'] = row[2]
+                    #user_type = row[2]
                 else:
                     error = "Invalid Credential"
         else:
@@ -48,14 +49,15 @@ def login_page():
         if error:
             return redirect(url_for('login_page', error=error))
         else:
-            return redirect(url_for('choose_function', type=user_type))
+            return redirect(url_for('choose_function'))
     else:
         error = request.args.get('error')
         return render_template('login.html', error=error)
 
 @application.route('/choosefunction', methods=['GET', 'POST'])
 def choose_function():
-    curType = request.args.get('type')
+    curType = session.get('usertype')
+    print curType
     if request.method == 'POST':
         if request.form['action'] == 'Pending Data Point':
             return redirect(url_for('pending_datapoint'))
