@@ -26,7 +26,7 @@ conn = mysql.connect()
 cur = conn.cursor()
 
 
-@application.route('/login', methods=['GET', 'POST'])
+@application.route('/', methods=['GET', 'POST'])
 def login_page():
     if request.method == 'POST':
         user_type = None
@@ -181,11 +181,13 @@ def pending_datapoint():
                 print value
                 index = int(value)
                 cur.execute("DELETE FROM DATAPOINT WHERE PLocation_Name = %s AND DateRecorded = %s;", [entries[index][0], entries[index][3]])
+                conn.commit()
         else:
             for value in checklist:
                 print value
                 index = int(value)
                 cur.execute("UPDATE DATAPOINT SET Accepted = 1 WHERE PLocation_Name = %s AND DateRecorded = %s;", [entries[index][0], entries[index][3]])
+                conn.commit()
         return redirect(url_for('pending_datapoint'))
     else:
         return render_template('pendingdatapoint.html', entries=entries)
@@ -202,11 +204,13 @@ def pending_account():
                 print value
                 index = int(value)
                 cur.execute("DELETE FROM USER WHERE Email = %s;", [entries[index][1]])
+                conn.commit()
         else:
             for value in checklist:
                 print value
                 index = int(value)
                 cur.execute("UPDATE USER SET Approved = 1 WHERE Email = %s;", [entries[index][1]])
+                conn.commit()
         return redirect(url_for('pending_account'))
     else:
         return render_template('pendingaccount.html', entries=entries)
@@ -313,23 +317,51 @@ def poi_detail():
             StartDate = request.form['StartDate']
             EndDate = request.form['EndDate']
 
-            cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE (DateRecorded >= %s AND DateRecorded < %s) AND (Data_Value >= %s AND Data_Value < %s) AND DType = %s AND PLocation_Name = %s;", (StartDate, EndDate, StartValue, EndValue, datatype, location))
+            if StartValue != "" and EndValue != "" and StartDate != "" and EndDate != "":
+                cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE (DateRecorded >= %s AND DateRecorded < %s) AND (Data_Value >= %s AND Data_Value < %s) AND DType = %s AND PLocation_Name = %s;", (StartDate, EndDate, StartValue, EndValue, datatype, location))
+            elif StartDate != "" and EndDate != "":
+                cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE (DateRecorded >= %s AND DateRecorded < %s) AND DType = %s AND PLocation_Name = %s;", (StartDate, EndDate,  datatype, location))
+            elif StartValue != "" and EndValue != "":
+                cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE (Data_Value >= %s AND Data_Value < %s) AND DType = %s AND PLocation_Name = %s;", (StartValue, EndValue, datatype, location))
+            else:
+                cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE DType = %s AND PLocation_Name = %s;", (datatype, location))
+
             entries = cur.fetchall()
-            return render_template('poidetail.html', entries=entries, plocation_name=location)
-            """
+
+            cur.execute("SELECT Flag FROM POI WHERE Location_Name = %s;", (location))
+            flag = cur.fetchall()
+            if flag[0][0] == 0:
+                boo = "Not Flagged"
+            else:
+                boo = "Flagged"
+            return render_template('poidetail.html', entries=entries, plocation_name=location, flag=boo)
+
         else:
             cur.execute("UPDATE POI SET Flag = 1 WHERE Location_Name = %s;", (location))
+            conn.commit()
             cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE PLocation_Name = %s;", (location))
             entries = cur.fetchall()
-            print entries
-            return render_template('poidetail.html')
-            """
+
+            cur.execute("SELECT Flag FROM POI WHERE Location_Name = %s;", (location))
+            flag = cur.fetchall()
+            if flag[0][0] == 0:
+                boo = "Not Flagged"
+            else:
+                boo = "Flagged"
+            return render_template('poidetail.html',plocation_name=location, flag=boo)
+
     else:
         location = request.args.get('plocation_name')
         cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE PLocation_Name = %s;", (location))
         entries = cur.fetchall()
         #entries = request.args.get('entries')
-        return render_template('poidetail.html', entries=entries, plocation_name=location)
+        cur.execute("SELECT Flag FROM POI WHERE Location_Name = %s;", (location))
+        flag = cur.fetchall()
+        if flag[0][0] == 0:
+            boo = "Not Flagged"
+        else:
+            boo = "Flagged"
+        return render_template('poidetail.html', entries=entries, plocation_name=location, flag=boo)
 
 @application.route('/poireport', methods=['GET'])
 def poi_report():
@@ -348,9 +380,6 @@ def poi_report():
 
     return render_template('poireport.html', drows=drows)
 
-@application.route('/', methods=['GET'])
-def mainpage():
-    return render_template('index.html')
 
 application.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 # run the app.
