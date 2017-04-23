@@ -72,7 +72,7 @@ def choose_function():
         elif request.form['action'] == 'Filter/Search POI':
             return redirect(url_for('view_poi'))
         else:
-            return redirect(url_for('poi_detail'))
+            return redirect(url_for('poi_report'))
     else:
         if curType == 'admin':
             entries = ['Pending Data Point', 'Pending City Official Accounts']
@@ -402,9 +402,21 @@ def poi_report():
     sql3 = '(select t4.PLocation_Name, t6.PCity, t6.PState, t4.mmin, t4.mavg, t4.mmax, t5.aqmin, t5.aqavg, t5.aqmax, Cm + Caq, Flag from ((select PLocation_Name, MIN(Data_Value) as mmin, AVG(Data_Value) as mavg, MAX(Data_Value) as mmax, COUNT(*) as Cm from DATAPOINT as A where Dtype = \'' + mold + '\' group by PLocation_Name) t4 left join (select PLocation_Name, MIN(Data_Value) as aqmin, AVG(Data_Value) as aqavg, MAX(Data_Value) as aqmax, COUNT(*) as Caq from DATAPOINT as A where Dtype = \'' + airquality + '\' group by PLocation_Name) t5 on t4.PLocation_Name = t5.PLocation_Name) join (select Location_Name, PCity, PState, Flag from POI) t6 on t4.PLocation_Name = t6.Location_Name)'
 
     sql1 = sql3 + ' union ' + sql2
-
     cur.execute(sql1)
     drows = [[str(item) for item in results] for results in cur.fetchall()]
+
+    sql4 = 'select PLocation_Name, COUNT(*) from DATAPOINT group by PLocation_Name'
+    cur.execute(sql4)
+    crows = [[str(item) for item in results] for results in cur.fetchall()]
+
+    for item in drows:
+        for c in crows:
+            if item[0] == c[0]:
+                item[9] = c[1]
+        if item[10] == '0':
+            item[10] = False
+        elif item[10] == '1':
+            item[10] = True
 
     return render_template('poireport.html', drows=drows)
 
