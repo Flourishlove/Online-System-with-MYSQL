@@ -31,7 +31,18 @@ Pending Account
 "DELETE FROM USER WHERE Email = %s;", (entries[index][1])
 
 View POI
-
+// Retrive	
+'select Location_Name from poi'
+'select state from citystate'
+'select city from citystate'
+// Filt
+select Location_Name,PCity,PState,Zip_Code,Flag,Date_Flagged from poi 
+(+ 'where Location_Name=\''+locationNmae+'\' ')
+(+ 'pcity=\''+city+'\' ')
+(+ 'pstate=\''+state+'\' ')
+(+ 'Zip_Code='+zipcode+' ')
+(+ 'Date_Flagged between \''+startdate+'\' and \''+enddate+'\' ')
+    
 
 POI detail
 // Retrive all datapoint of current poi
