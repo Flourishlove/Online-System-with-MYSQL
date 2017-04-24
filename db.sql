@@ -58,10 +58,10 @@ CREATE TABLE POI
 
 INSERT INTO `POI` (`Location_Name`, `Flag`, `Date_Flagged`, `Zip_Code`, `PCity`, `PState`)
 VALUES
-    ('Georgia Tech', FALSE, DATE '2015-12-17', 310058, 'Atlanta', 'Georgia'),
-    ('UCLA', FALSE, DATE '2017-12-17', 819232, 'Los Angeles', 'California'),
-    ('ASU', FALSE, DATE '2012-07-17', 182421, 'Phoenix', 'Arizona'),
-    ('MIT', FALSE, DATE '2016-03-21', 519932, 'Boston', 'Massachusetts');
+    ('Georgia Tech', FALSE, NULL, 310058, 'Atlanta', 'Georgia'),
+    ('UCLA', FALSE, NULL, 819232, 'Los Angeles', 'California'),
+    ('ASU', FALSE, NULL, 182421, 'Phoenix', 'Arizona'),
+    ('MIT', TRUE, DATE '2016-03-21', 519932, 'Boston', 'Massachusetts');
 
 # table DATATYPE
 # ------------------------------------------------------------

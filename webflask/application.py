@@ -356,10 +356,10 @@ def poi_detail():
 
             cur.execute("SELECT Flag FROM POI WHERE Location_Name = %s;", (location))
             flag = cur.fetchall()
-            if flag[0][0] == 0:
-                boo = "Not Flagged"
-            else:
+            if flag[0][0] == 1:
                 boo = "Flagged"
+            else:
+                boo = "Not Flagged"
             return render_template('poidetail.html', entries=entries, plocation_name=location, flag=boo)
 
         else:
@@ -370,10 +370,10 @@ def poi_detail():
 
             cur.execute("SELECT Flag FROM POI WHERE Location_Name = %s;", (location))
             flag = cur.fetchall()
-            if flag[0][0] == 0:
-                boo = "Not Flagged"
-            else:
+            if flag[0][0] == 1:
                 boo = "Flagged"
+            else:
+                boo = "Not Flagged"
             return render_template('poidetail.html',plocation_name=location, flag=boo)
 
     else:
@@ -383,10 +383,10 @@ def poi_detail():
         #entries = request.args.get('entries')
         cur.execute("SELECT Flag FROM POI WHERE Location_Name = %s;", (location))
         flag = cur.fetchall()
-        if flag[0][0] == 0:
-            boo = "Not Flagged"
-        else:
+        if flag[0][0] == 1:
             boo = "Flagged"
+        else:
+            boo = "Not Flagged"
         return render_template('poidetail.html', entries=entries, plocation_name=location, flag=boo)
 
 @application.route('/poireport', methods=['GET'])
