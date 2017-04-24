@@ -99,19 +99,23 @@ def signup():
 
         if usertype == 'city_official':
             title = request.form['usertitle']
-            approved = False
             ucity = request.form['usercity']
             ustate = request.form['userstate']
+            sql = "INSERT INTO USER (email,username,password,usertype,title,ucity,ustate) VALUES (%s,%s,%s,%s,%r,%s,%s)"
         else:
             title = None
             approved = True
             ucity = None
             ustate = None
+            sql = "INSERT INTO USER (email,username,password,usertype,title,approved,ucity,ustate) VALUES (%s,%s,%s,%s,%s,%r,%s,%s)"
 
-        sql = "INSERT INTO USER (email,username,password,usertype,title,approved,ucity,ustate) VALUES (%s,%s,%s,%s,%s,%r,%s,%s)"
         try:
-            cur.execute(sql, (email, username, password, usertype, title, approved, ucity, ustate))
-            conn.commit()
+            if usertype == 'city_official':
+                cur.execute(sql, (email, username, password, usertype, title, ucity, ustate))
+                conn.commit()
+            else:
+                cur.execute(sql, (email, username, password, usertype, title, approved, ucity, ustate))
+                conn.commit()
         except Exception, e:
             print str(e)
             error = e
@@ -191,7 +195,7 @@ def pending_datapoint():
     if not session.get('logged_in'):
         return redirect(url_for('login_page'))
 
-    cur.execute("SELECT PLocation_Name, DType, Data_Value, DateRecorded FROM DATAPOINT WHERE NOT Accepted;")
+    cur.execute("SELECT PLocation_Name, DType, Data_Value, DateRecorded FROM DATAPOINT WHERE Accepted is NULL;")
     entries = cur.fetchall()
     if request.method == 'POST':
         checklist = request.form.getlist('check')
@@ -200,7 +204,7 @@ def pending_datapoint():
             for value in checklist:
                 print value
                 index = int(value)
-                cur.execute("DELETE FROM DATAPOINT WHERE PLocation_Name = %s AND DateRecorded = %s;", [entries[index][0], entries[index][3]])
+                cur.execute("UPDATE DATAPOINT SET Accepted = 0 WHERE PLocation_Name = %s AND DateRecorded = %s;", [entries[index][0], entries[index][3]])
                 conn.commit()
         else:
             for value in checklist:
@@ -217,7 +221,7 @@ def pending_account():
     if not session.get('logged_in'):
         return redirect(url_for('login_page'))
 
-    cur.execute("SELECT Username, Email, UCity, UState, Title FROM USER WHERE Approved=NULL ;")
+    cur.execute("SELECT Username, Email, UCity, UState, Title FROM USER WHERE Approved is NULL;")
     entries = cur.fetchall()
     if request.method == 'POST':
         checklist = request.form.getlist('check')
@@ -386,16 +390,11 @@ def poi_detail():
         #entries = request.args.get('entries')
         cur.execute("SELECT Flag FROM POI WHERE Location_Name = %s;", (location))
         flag = cur.fetchall()
-<<<<<<< HEAD
         if flag[0][0] != 1:
             boo = "Not Flagged"
         else:
-=======
-        if flag[0][0] == 1:
->>>>>>> origin/master
-            boo = "Flagged"
-        else:
-            boo = "Not Flagged"
+            if flag[0][0] == 1:
+                boo = "Flagged"
         return render_template('poidetail.html', entries=entries, plocation_name=location, flag=boo)
 
 @application.route('/poireport', methods=['GET'])
