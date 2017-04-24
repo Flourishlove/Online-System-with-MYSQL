@@ -55,5 +55,19 @@ POI detail
 "UPDATE POI SET Flag = 1 WHERE Location_Name = %s;", (location)
 
 POI Report
+// Retrieve all the requested information of POI Report, which includes POI location name, city, state, mold min, mold avg, mold max, aq min, aq abg, aq max, # of datapoints and flag. However, POI lacking either type of datapoint won't be selected when using the 'type=?' conditions. What's more, since MYSQL dont have a full outer join, the only way to get all the POIs is to union the left and right joined data. Thus:
 
+// sql1 selects all POIs that has mold datapoints
 
+sql1 = "(select t2.PLocation_Name, t3.PCity, t3.PState, t1.mmin, t1.mavg, t1.mmax, t2.aqmin, t2.aqavg, t2.aqmax, Cm + Caq, Flag from ((select PLocation_Name, MIN(Data_Value) as mmin, AVG(Data_Value) as mavg, MAX(Data_Value) as mmax, COUNT(*) as Cm from DATAPOINT as A where Dtype = 'mold' group by PLocation_Name) t1 left join (select PLocation_Name, MIN(Data_Value) as aqmin, AVG(Data_Value) as aqavg, MAX(Data_Value) as aqmax, COUNT(*) as Caq from DATAPOINT as A where Dtype = 'airquality' group by PLocation_Name) t2 on t1.PLocation_Name = t2.PLocation_Name) join (select Location_Name, PCity, PState, Flag from POI) t3 on t2.PLocation_Name = t3.Location_Name)"
+
+// sql2 selects all POIs that has air quality datapoints
+
+sql2 = "(select t2.PLocation_Name, t3.PCity, t3.PState, t1.mmin, t1.mavg, t1.mmax, t2.aqmin, t2.aqavg, t2.aqmax, Cm + Caq, Flag from ((select PLocation_Name, MIN(Data_Value) as mmin, AVG(Data_Value) as mavg, MAX(Data_Value) as mmax, COUNT(*) as Cm from DATAPOINT as A where Dtype = 'mold' group by PLocation_Name) t1 right join (select PLocation_Name, MIN(Data_Value) as aqmin, AVG(Data_Value) as aqavg, MAX(Data_Value) as aqmax, COUNT(*) as Caq from DATAPOINT as A where Dtype = 'airquality' group by PLocation_Name) t2 on t1.PLocation_Name = t2.PLocation_Name) join (select Location_Name, PCity, PState, Flag from POI) t3 on t2.PLocation_Name = t3.Location_Name)"
+
+// sql3 unions sql1 and sql2, which get all the POIs
+
+sql3 = sql1 + ' union ' + sql2
+
+// sql4 fix the count error which adding a none value with an int results in a none
+sql4 = 'select PLocation_Name, COUNT(*) from DATAPOINT group by PLocation_Name'
