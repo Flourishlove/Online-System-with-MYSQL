@@ -1,0 +1,48 @@
+Login:
+// Check if such user exist
+"SELECT COUNT(1) FROM USER WHERE Email = %s;", [email]
+// Get user info
+"SELECT Username, Password, UserType, Approved FROM USER WHERE Email = %s;", [email]
+
+SignUp:
+// Insert new user's info
+"INSERT INTO USER (email,username,password,usertype,title,approved,ucity,ustate) VALUES (%s,%s,%s,%s,%s,%r,%s,%s);", (email, username, password, usertype, title, approved, ucity, ustate)
+
+Newdatapoint
+"INSERT INTO DATAPOINT (PLocation_Name, DateRecorded, Data_Value, DType, Accepted) VALUES (%s, %s,%s,%s,%s);", (poiLocationName, timedate, datavalue, datatype, False)
+
+Newlocation
+"INSERT INTO POI (Location_Name, Zip_Code, PCity, PState) VALUES (%s, %s, %s, %s);", (locationname, zipcode, pcity, pstate)
+
+Pending Data Point
+// Retrive
+"SELECT PLocation_Name, DType, Data_Value, DateRecorded FROM DATAPOINT WHERE NOT Accepted;"
+// Accept
+"UPDATE DATAPOINT SET Accepted = 1 WHERE PLocation_Name = %s AND DateRecorded = %s;", (entries[index][0], entries[index][3])
+//Reject
+"DELETE FROM DATAPOINT WHERE PLocation_Name = %s AND DateRecorded = %s;", (entries[index][0], entries[index][3])
+
+Pending Account
+// Retrive
+"SELECT Username, Email, UCity, UState, Title FROM USER WHERE NOT Approved;"
+// Accept
+"UPDATE USER SET Approved = 1 WHERE Email = %s;", (entries[index][1])
+// Reject
+"DELETE FROM USER WHERE Email = %s;", (entries[index][1])
+
+View POI
+
+
+POI detail
+// Retrive all datapoint of current poi
+"SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE PLocation_Name = %s;", (location)
+// Check if this poi has been flagged
+"SELECT Flag FROM POI WHERE Location_Name = %s;", (location)
+// Apply filter
+"SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE (DateRecorded >= %s AND DateRecorded < %s) AND (Data_Value >= %s AND Data_Value < %s) AND DType = %s AND PLocation_Name = %s;", (StartDate, EndDate, StartValue, EndValue, datatype, location)
+// Flag this poi
+"UPDATE POI SET Flag = 1 WHERE Location_Name = %s;", (location)
+
+POI Report
+
+
