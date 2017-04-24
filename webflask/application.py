@@ -363,7 +363,7 @@ def poi_detail():
             return render_template('poidetail.html', entries=entries, plocation_name=location, flag=boo)
 
         else:
-            cur.execute("UPDATE POI SET Flag = 1 WHERE Location_Name = %s;", (location))
+            cur.execute("UPDATE POI SET Flag = 1, Date_Flagged = CURDATE() WHERE Location_Name = %s;", (location))
             conn.commit()
             cur.execute("SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE PLocation_Name = %s;", (location))
             entries = cur.fetchall()

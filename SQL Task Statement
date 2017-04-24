@@ -31,18 +31,18 @@ Pending Account
 "DELETE FROM USER WHERE Email = %s;", (entries[index][1])
 
 View POI
-// Retrive	
+// Retrive
 'select Location_Name from poi'
 'select state from citystate'
 'select city from citystate'
 // Filt
-select Location_Name,PCity,PState,Zip_Code,Flag,Date_Flagged from poi 
+select Location_Name,PCity,PState,Zip_Code,Flag,Date_Flagged from poi
 (+ 'where Location_Name=\''+locationNmae+'\' ')
 (+ 'pcity=\''+city+'\' ')
 (+ 'pstate=\''+state+'\' ')
 (+ 'Zip_Code='+zipcode+' ')
 (+ 'Date_Flagged between \''+startdate+'\' and \''+enddate+'\' ')
-    
+
 
 POI detail
 // Retrive all datapoint of current poi
@@ -52,7 +52,7 @@ POI detail
 // Apply filter
 "SELECT DType, Data_Value, DateRecorded FROM DATAPOINT WHERE (DateRecorded >= %s AND DateRecorded < %s) AND (Data_Value >= %s AND Data_Value < %s) AND DType = %s AND PLocation_Name = %s;", (StartDate, EndDate, StartValue, EndValue, datatype, location)
 // Flag this poi
-"UPDATE POI SET Flag = 1 WHERE Location_Name = %s;", (location)
+"UPDATE POI SET Flag = 1, Date_Flagged = CURDATE() WHERE Location_Name = %s;", (location)
 
 POI Report
 // Retrieve all the requested information of POI Report, which includes POI location name, city, state, mold min, mold avg, mold max, aq min, aq abg, aq max, # of datapoints and flag. However, POI lacking either type of datapoint won't be selected when using the 'type=?' conditions. What's more, since MYSQL dont have a full outer join, the only way to get all the POIs is to union the left and right joined data. Thus:
