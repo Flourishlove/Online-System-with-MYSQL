@@ -17,7 +17,7 @@ application.debug = True
 
 mysql = MySQL()
 application.config['MYSQL_DATABASE_USER'] = 'root'
-application.config['MYSQL_DATABASE_PASSWORD'] = 'FriApr14'
+application.config['MYSQL_DATABASE_PASSWORD'] = '9404122004'
 application.config['MYSQL_DATABASE_DB'] = 'city82'
 application.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
@@ -53,7 +53,10 @@ def login_page():
         if error:
             return redirect(url_for('login_page', error=error))
         else:
-            return redirect(url_for('choose_function'))
+            if session['usertype'] == 'city_scientist':
+                return redirect(url_for('new_datapoint'))
+            else:
+                return redirect(url_for('choose_function'))
     else:
         error = request.args.get('error')
         return render_template('login.html', error=error)
@@ -214,7 +217,7 @@ def pending_account():
     if not session.get('logged_in'):
         return redirect(url_for('login_page'))
 
-    cur.execute("SELECT Username, Email, UCity, UState, Title FROM USER WHERE NOT Approved;")
+    cur.execute("SELECT Username, Email, UCity, UState, Title FROM USER WHERE Approved=NULL ;")
     entries = cur.fetchall()
     if request.method == 'POST':
         checklist = request.form.getlist('check')
@@ -223,7 +226,7 @@ def pending_account():
             for value in checklist:
                 print value
                 index = int(value)
-                cur.execute("DELETE FROM USER WHERE Email = %s;", [entries[index][1]])
+                cur.execute("UPDATE USER SET Approved = 0 WHERE Email = %s;", [entries[index][1]])
                 conn.commit()
         else:
             for value in checklist:
@@ -383,7 +386,7 @@ def poi_detail():
         #entries = request.args.get('entries')
         cur.execute("SELECT Flag FROM POI WHERE Location_Name = %s;", (location))
         flag = cur.fetchall()
-        if flag[0][0] == 0:
+        if flag[0][0] != 1:
             boo = "Not Flagged"
         else:
             boo = "Flagged"
